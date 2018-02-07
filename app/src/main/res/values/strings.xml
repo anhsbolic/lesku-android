@@ -17,7 +17,14 @@
     <string name="today_fragment_title">Jadwal Hari Ini</string>
     <string name="today_placeholder">Tidak ada jadwal mengajar</string>
 
+    <!-- SCHEDULE -->
+    <string name="schedule_fragment_title">Atur Jadwal</string>
+    <string name="schedule_placeholder">Belum ada jadwal mengajar yang terdaftar</string>
+
     <!-- STUDENTS -->
     <string name="students_fragment_title">Daftar Siswa</string>
     <string name="students_placeholder">Belum ada siswa yang terdaftar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

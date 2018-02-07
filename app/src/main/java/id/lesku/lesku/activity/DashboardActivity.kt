@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import id.lesku.lesku.R
+import id.lesku.lesku.fragment.ScheduleFragment
 import id.lesku.lesku.fragment.StudentsFragment
 import id.lesku.lesku.fragment.TodayFragment
 import id.lesku.lesku.helper.BottomNavigationViewHelper
@@ -46,7 +47,8 @@ class DashboardActivity : AppCompatActivity() {
                 actionBar.setTitle(R.string.today_fragment_title)
             }
             R.id.menu_schedule ->{
-
+                fragment = ScheduleFragment()
+                actionBar.setTitle(R.string.schedule_fragment_title)
             }
             R.id.menu_students ->{
                 fragment = StudentsFragment()
