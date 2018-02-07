@@ -14,5 +14,6 @@
     <string name="dashboard_dialog_exit_negative">Tidak</string>
 
     <!-- TODAY -->
+    <string name="today_fragment_title">Jadwal Hari Ini</string>
     <string name="today_placeholder">Tidak ada jadwal mengajar</string>
 </resources>

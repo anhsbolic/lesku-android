@@ -42,7 +42,7 @@ class DashboardActivity : AppCompatActivity() {
         when(itemId){
             R.id.menu_today ->{
                 fragment = TodayFragment()
-                actionBar.title = "Jadwal Hari Ini"
+                actionBar.setTitle(R.string.today_fragment_title)
             }
             R.id.menu_schedule ->{
 
@@ -55,7 +55,7 @@ class DashboardActivity : AppCompatActivity() {
             }
             else -> {
                 fragment = TodayFragment()
-                actionBar.title = "Jadwal Hari Ini"
+                actionBar.setTitle(R.string.today_fragment_title)
             }
         }
 
