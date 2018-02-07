@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var actionBar: ActionBar
+    private var currentFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,13 +24,13 @@ class DashboardActivity : AppCompatActivity() {
         }
         actionBar = supportActionBar!!
 
+        displaySelectedScreen(R.id.menu_today)
+
         BottomNavigationViewHelper.disableShiftMode(dashboardBottomNav)
         dashboardBottomNav.setOnNavigationItemSelectedListener {item: MenuItem ->
             displaySelectedScreen(item.itemId)
             return@setOnNavigationItemSelectedListener true
         }
-
-        displaySelectedScreen(R.id.menu_today)
 
     }
 
