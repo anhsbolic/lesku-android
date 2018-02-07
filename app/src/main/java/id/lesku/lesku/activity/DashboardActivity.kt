@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import id.lesku.lesku.R
+import id.lesku.lesku.fragment.StudentsFragment
 import id.lesku.lesku.fragment.TodayFragment
 import id.lesku.lesku.helper.BottomNavigationViewHelper
 import kotlinx.android.synthetic.main.activity_dashboard.*
@@ -48,7 +49,8 @@ class DashboardActivity : AppCompatActivity() {
 
             }
             R.id.menu_students ->{
-
+                fragment = StudentsFragment()
+                actionBar.setTitle(R.string.students_fragment_title)
             }
             R.id.menu_profile ->{
 

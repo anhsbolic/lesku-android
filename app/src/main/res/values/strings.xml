@@ -16,4 +16,8 @@
     <!-- TODAY -->
     <string name="today_fragment_title">Jadwal Hari Ini</string>
     <string name="today_placeholder">Tidak ada jadwal mengajar</string>
+
+    <!-- STUDENTS -->
+    <string name="students_fragment_title">Daftar Siswa</string>
+    <string name="students_placeholder">Belum ada siswa yang terdaftar</string>
 </resources>
