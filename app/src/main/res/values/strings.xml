@@ -9,6 +9,9 @@
     <string name="dashboard_menu_schedule_title">Jadwal</string>
     <string name="dashboard_menu_students_title">Siswa</string>
     <string name="dashboard_menu_profile_title">Profil</string>
+    <string name="dashboard_dialog_exit_message">Kamu akan keluar?</string>
+    <string name="dashboard_dialog_exit_positive">Ya</string>
+    <string name="dashboard_dialog_exit_negative">Tidak</string>
 
     <!-- TODAY -->
     <string name="today_placeholder">Tidak ada jadwal mengajar</string>

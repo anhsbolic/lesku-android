@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.ActionBar
+import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import id.lesku.lesku.R
 import id.lesku.lesku.fragment.TodayFragment
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 class DashboardActivity : AppCompatActivity() {
     private lateinit var actionBar: ActionBar
     private var currentFragment: Fragment? = null
+    private var isFisrtFragment: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +60,36 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         if(fragment != null){
-            supportFragmentManager.beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.dashboardFrameContainer, fragment)
-                    .commit()
+            if(isFisrtFragment){
+                isFisrtFragment = false
+                supportFragmentManager.beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.dashboardFrameContainer, fragment)
+                        .commit()
+                currentFragment = fragment
+            }else{
+                if(fragment.javaClass.simpleName != currentFragment!!.javaClass.simpleName){
+                    supportFragmentManager.beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .replace(R.id.dashboardFrameContainer, fragment)
+                            .commit()
+                    currentFragment = fragment
+                }
+            }
         }
     }
 
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount > 0){
+            super.onBackPressed()
+        }else{
+            AlertDialog.Builder(this@DashboardActivity)
+                    .setMessage(R.string.dashboard_dialog_exit_message)
+                    .setPositiveButton(R.string.dashboard_dialog_exit_positive,{ _ , _ ->
+                        finish()
+                    })
+                    .setNegativeButton(R.string.dashboard_dialog_exit_negative, null)
+                    .show()
+        }
+    }
 }
