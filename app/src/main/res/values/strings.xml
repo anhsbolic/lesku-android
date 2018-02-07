@@ -3,4 +3,7 @@
 
     <!-- SPLASH SCREEN -->
     <string name="splashscreen_title">L e s K u .id</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

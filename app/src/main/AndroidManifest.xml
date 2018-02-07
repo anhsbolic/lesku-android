@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".activity.SplashScreenActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Themes.Custom.FullScreen">
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DashboardActivity"
+            android:name=".activity.DashboardActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Themes.Custom.NoActionBar"
