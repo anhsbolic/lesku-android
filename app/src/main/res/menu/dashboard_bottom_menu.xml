@@ -6,24 +6,24 @@
         android:id="@+id/menu_today"
         android:enabled="true"
         android:icon="@drawable/bottom_nav_today"
-        android:title="Hari Ini"
+        android:title="@string/dashboard_menu_today_title"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_schedule"
         android:enabled="true"
         android:icon="@drawable/bottom_nav_schedule"
-        android:title="Jadwal"
+        android:title="@string/dashboard_menu_schedule_title"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_students"
         android:enabled="true"
         android:icon="@drawable/bottom_nav_students"
-        android:title="Siswa"
+        android:title="@string/dashboard_menu_students_title"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_profile"
         android:enabled="true"
         android:icon="@drawable/bottom_nav_profile"
-        android:title="Profil"
+        android:title="@string/dashboard_menu_profile_title"
         app:showAsAction="ifRoom"/>
 </menu>

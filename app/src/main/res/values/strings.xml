@@ -4,6 +4,12 @@
     <!-- SPLASH SCREEN -->
     <string name="splashscreen_title">L e s K u .id</string>
 
+    <!-- DASHBOARD -->
+    <string name="dashboard_menu_today_title">Hari Ini</string>
+    <string name="dashboard_menu_schedule_title">Jadwal</string>
+    <string name="dashboard_menu_students_title">Siswa</string>
+    <string name="dashboard_menu_profile_title">Profil</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
