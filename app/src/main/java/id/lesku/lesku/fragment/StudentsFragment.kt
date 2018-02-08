@@ -9,11 +9,14 @@ import android.view.ViewGroup
 
 import id.lesku.lesku.R
 import id.lesku.lesku.activity.AddStudentActivity
+import id.lesku.lesku.activity.DashboardActivity
+import id.lesku.lesku.model.Student
+import id.lesku.lesku.helper.SqliteDbHelper
 import kotlinx.android.synthetic.main.fragment_students.*
 
 class StudentsFragment : Fragment() {
 
-
+    private var dataStudents: ArrayList<Student> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -24,11 +27,24 @@ class StudentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dataStudents = loadDataStudentFromSQLiteDb()
 
+        if(dataStudents.isNotEmpty()){
+            studentsImgPlaceholder.visibility = View.GONE
+            studentsTxtPlaceholder.visibility = View.GONE
+        }else{
+            studentsImgPlaceholder.visibility = View.VISIBLE
+            studentsTxtPlaceholder.visibility = View.VISIBLE
+        }
 
         studentsFabAddStudents.setOnClickListener {
             addStudent()
         }
+    }
+
+    private fun loadDataStudentFromSQLiteDb(): ArrayList<Student> {
+        val dbStudent = SqliteDbHelper(activity as DashboardActivity)
+        return dbStudent.getListStudents()
     }
 
     private fun addStudent() {

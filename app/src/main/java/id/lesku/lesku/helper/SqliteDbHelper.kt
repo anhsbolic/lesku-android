@@ -16,9 +16,9 @@ class SqliteDbHelper(context: Context)
         val CREATE_CONTACTS_TABLE = ("CREATE TABLE " + TABLE_STUDENTS
                 + "("
                 + KEY_STUDENT_ID + " INTEGER PRIMARY KEY,"
-                + KEY_STUDENT_NAME + " TEXT,"
                 + KEY_STUDENT_CREATED_DATE + " TEXT,"
                 + KEY_STUDENT_UPDATED_DATE + " TEXT,"
+                + KEY_STUDENT_NAME + " TEXT,"
                 + KEY_STUDENT_PHONE + " TEXT,"
                 + KEY_STUDENT_WHATSAPP + " TEXT,"
                 + KEY_STUDENT_ADDRESS + " TEXT,"
@@ -129,8 +129,8 @@ class SqliteDbHelper(context: Context)
     }
 
     @SuppressLint("Recycle")
-    fun getListStudents(): MutableList<Student>{
-        val studentList : MutableList<Student> = ArrayList()
+    fun getListStudents(): ArrayList<Student>{
+        val studentList : ArrayList<Student> = ArrayList()
 
         val selectQuery = "SELECT * FROM " + TABLE_STUDENTS
 

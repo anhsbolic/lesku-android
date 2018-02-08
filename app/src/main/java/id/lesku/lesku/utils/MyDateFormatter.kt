@@ -232,7 +232,7 @@ class MyDateFormatter {
             val strDayNumber = strDate[8].toString() + strDate[9].toString()
 
             //get date
-            return getDate(strDayNumber.toInt(), strMonth.toInt(), strYear.toInt())
+            return getDate(strDayNumber.toInt(), strMonth.toInt()-1, strYear.toInt())
         }
     }
 }
