@@ -46,7 +46,7 @@ class SqliteDbHelper(context: Context)
      * All CRUD(Create, Read, Update, Delete) Operations
      */
 
-    fun addStudent(student: Student){
+    fun addStudent(student: Student): Int{
         val db: SQLiteDatabase = this.writableDatabase
 
         val values = ContentValues()
@@ -72,8 +72,10 @@ class SqliteDbHelper(context: Context)
         values.put(KEY_STUDENT_PARENT_ADDRESS, student.parent_address!!)
 
         //Inserting Row
-        db.insert(TABLE_STUDENTS, null, values)
+        val rowInserted: Long = db.insert(TABLE_STUDENTS, null, values)
         db.close()
+
+        return rowInserted.toInt()
     }
 
     @SuppressLint("Recycle")

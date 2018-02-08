@@ -1,8 +1,10 @@
 package id.lesku.lesku.activity
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import id.lesku.lesku.R
 import id.lesku.lesku.helper.SqliteDbHelper
 import id.lesku.lesku.model.Student
@@ -167,7 +169,17 @@ class AddStudentActivity : AppCompatActivity() {
 
     private fun addStudentToSQLiteDb(student: Student) {
         val dbStudent = SqliteDbHelper(this@AddStudentActivity)
-        dbStudent.addStudent(student)
+        val rowInserted = dbStudent.addStudent(student)
+        if(rowInserted == -1) {
+            Toast.makeText(this@AddStudentActivity, "Gagal Menambahkan Siswa",
+                    Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(this@AddStudentActivity, "Berhasil",
+                    Toast.LENGTH_SHORT).show()
 
+            val intent = Intent(this@AddStudentActivity, DashboardActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
