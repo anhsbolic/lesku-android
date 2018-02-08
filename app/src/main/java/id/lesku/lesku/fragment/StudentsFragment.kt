@@ -3,6 +3,10 @@ package id.lesku.lesku.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +16,17 @@ import id.lesku.lesku.activity.AddStudentActivity
 import id.lesku.lesku.activity.DashboardActivity
 import id.lesku.lesku.model.Student
 import id.lesku.lesku.helper.SqliteDbHelper
+import id.lesku.lesku.adapter.StudentsAdapter
 import kotlinx.android.synthetic.main.fragment_students.*
 
 class StudentsFragment : Fragment() {
 
     private var dataStudents: ArrayList<Student> = ArrayList()
+
+    private lateinit var adapterRvStudents: RecyclerView.Adapter<*>
+    private lateinit var lmRvStudents: RecyclerView.LayoutManager
+    private lateinit var animator: DefaultItemAnimator
+    private lateinit var dividerItemDecoration: DividerItemDecoration
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -32,7 +42,24 @@ class StudentsFragment : Fragment() {
         if(dataStudents.isNotEmpty()){
             studentsImgPlaceholder.visibility = View.GONE
             studentsTxtPlaceholder.visibility = View.GONE
+            studentsRv.visibility = View.VISIBLE
+
+            //set recycler view
+            lmRvStudents = LinearLayoutManager(activity)
+            studentsRv.layoutManager = lmRvStudents
+            animator = DefaultItemAnimator()
+            studentsRv.itemAnimator = animator
+            dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+            studentsRv.addItemDecoration(dividerItemDecoration)
+            adapterRvStudents = StudentsAdapter(dataStudents, object: StudentsAdapter.OnItemClickListener{
+                override fun onItemClick(student: Student, position: Int) {
+
+                }
+            })
+            studentsRv.adapter = adapterRvStudents
+
         }else{
+            studentsRv.visibility = View.GONE
             studentsImgPlaceholder.visibility = View.VISIBLE
             studentsTxtPlaceholder.visibility = View.VISIBLE
         }

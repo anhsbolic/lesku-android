@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="id.lesku.lesku.fragment.StudentsFragment">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/studentsRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:paddingBottom="80dp"
+        android:layout_marginTop="10dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/studentsImgPlaceholder"
         android:layout_width="wrap_content"
