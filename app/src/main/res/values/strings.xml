@@ -25,6 +25,6 @@
     <string name="students_fragment_title">Daftar Siswa</string>
     <string name="students_placeholder">Belum ada siswa yang terdaftar</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- ADD STUDENT -->
+    <string name="add_student_activity_title">Tambah Siswa</string>
 </resources>
