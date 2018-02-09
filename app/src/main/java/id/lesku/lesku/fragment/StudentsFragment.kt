@@ -38,35 +38,45 @@ class StudentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataStudents = loadDataStudentFromSQLiteDb()
+        //Set RecyclerView
+        lmRvStudents = LinearLayoutManager(activity)
+        studentsRv.layoutManager = lmRvStudents
+        animator = DefaultItemAnimator()
+        studentsRv.itemAnimator = animator
+        dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+        studentsRv.addItemDecoration(dividerItemDecoration)
 
+        //Get data students
+        getDataStudent()
+
+        //Button Handling & Listener
+        studentsFabAddStudents.setOnClickListener {
+            addStudent()
+        }
+    }
+
+    private fun getDataStudent() {
+        if(dataStudents.isNotEmpty()){
+            dataStudents.clear()
+        }
+
+        dataStudents = loadDataStudentFromSQLiteDb()
         if(dataStudents.isNotEmpty()){
             studentsImgPlaceholder.visibility = View.GONE
             studentsTxtPlaceholder.visibility = View.GONE
             studentsRv.visibility = View.VISIBLE
 
-            //set recycler view
-            lmRvStudents = LinearLayoutManager(activity)
-            studentsRv.layoutManager = lmRvStudents
-            animator = DefaultItemAnimator()
-            studentsRv.itemAnimator = animator
-            dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-            studentsRv.addItemDecoration(dividerItemDecoration)
+            //Set data to RecyclerView
             adapterRvStudents = StudentsAdapter(dataStudents, object: StudentsAdapter.OnItemClickListener{
                 override fun onItemClick(student: Student, position: Int) {
                     goToDetailStudent(student)
                 }
             })
             studentsRv.adapter = adapterRvStudents
-
         }else{
             studentsRv.visibility = View.GONE
             studentsImgPlaceholder.visibility = View.VISIBLE
             studentsTxtPlaceholder.visibility = View.VISIBLE
-        }
-
-        studentsFabAddStudents.setOnClickListener {
-            addStudent()
         }
     }
 
@@ -75,18 +85,36 @@ class StudentsFragment : Fragment() {
         return dbStudent.getListStudents()
     }
 
-    private fun addStudent() {
-        val intent = Intent(activity, AddStudentActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun goToDetailStudent(student: Student){
         val intent = Intent(activity, DetailStudentActivity::class.java)
         intent.putExtra(DetailStudentActivity.DATA_STUDENT, student)
         startActivity(intent)
     }
 
+    private fun addStudent() {
+        val intent = Intent(activity, AddStudentActivity::class.java)
+        startActivityForResult(intent, ADD_STUDENT)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode){
+            ADD_STUDENT ->{
+                when(resultCode){
+                    ADD_STUDENT_SUCCESS ->{
+                        getDataStudent()
+                    }
+                }
+            }
+            else ->{
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+    }
+
     companion object {
+        val ADD_STUDENT: Int = 11
+        val ADD_STUDENT_SUCCESS: Int = 12
+
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
 

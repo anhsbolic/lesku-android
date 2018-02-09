@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import id.lesku.lesku.R
+import id.lesku.lesku.fragment.StudentsFragment
 import id.lesku.lesku.helper.SqliteDbHelper
 import id.lesku.lesku.model.Student
 import id.lesku.lesku.utils.SchoolLevel
@@ -226,13 +227,14 @@ class AddStudentActivity : AppCompatActivity() {
             Toast.makeText(this@AddStudentActivity, "Gagal Menambahkan Siswa",
                     Toast.LENGTH_SHORT).show()
         }else{
-            Toast.makeText(this@AddStudentActivity, "Berhasil",
-                    Toast.LENGTH_SHORT).show()
-
-            val intent = Intent(this@AddStudentActivity, DashboardActivity::class.java)
-            startActivity(intent)
-            finish()
+            sendResultToStudentsFragment()
         }
+    }
+
+    private fun sendResultToStudentsFragment() {
+        val intent = Intent()
+        setResult(StudentsFragment.ADD_STUDENT_SUCCESS, intent)
+        finish()
     }
 
     private fun showKeyboard(showKeyboard: Boolean){
