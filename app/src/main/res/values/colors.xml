@@ -5,4 +5,8 @@
     <color name="colorAccent">#49e96b</color>
 
     <color name="colorTextPlaceholder">#688c96</color>
+
+    <color name="colorTransparent">#00ffffff</color>
+    <color name="colorToolbarIcon">#ffffff</color>
+
 </resources>

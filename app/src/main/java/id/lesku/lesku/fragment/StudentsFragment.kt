@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import id.lesku.lesku.R
 import id.lesku.lesku.activity.AddStudentActivity
 import id.lesku.lesku.activity.DashboardActivity
+import id.lesku.lesku.activity.DetailStudentActivity
 import id.lesku.lesku.model.Student
 import id.lesku.lesku.helper.SqliteDbHelper
 import id.lesku.lesku.adapter.StudentsAdapter
@@ -53,7 +54,7 @@ class StudentsFragment : Fragment() {
             studentsRv.addItemDecoration(dividerItemDecoration)
             adapterRvStudents = StudentsAdapter(dataStudents, object: StudentsAdapter.OnItemClickListener{
                 override fun onItemClick(student: Student, position: Int) {
-
+                    goToDetailStudent(student)
                 }
             })
             studentsRv.adapter = adapterRvStudents
@@ -76,6 +77,11 @@ class StudentsFragment : Fragment() {
 
     private fun addStudent() {
         val intent = Intent(activity, AddStudentActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToDetailStudent(student: Student){
+        val intent = Intent(activity, DetailStudentActivity::class.java)
         startActivity(intent)
     }
 
