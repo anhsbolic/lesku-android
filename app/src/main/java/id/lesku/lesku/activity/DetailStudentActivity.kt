@@ -25,8 +25,8 @@ class DetailStudentActivity : AppCompatActivity() {
         //Get Data
         if(intent.hasExtra(DATA_STUDENT)){
             student = intent.getParcelableExtra(DATA_STUDENT)
-            val sex = "GIRL"
-            if(sex == Sex.BOY.toString()){
+            val sex = student.sex!!
+            if(sex == Sex.L.toString()){
                 detailStudentImg.setImageResource(R.drawable.student_boy)
             }else{
                 detailStudentImg.setImageResource(R.drawable.student_girl)

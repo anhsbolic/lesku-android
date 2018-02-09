@@ -5,19 +5,25 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import id.lesku.lesku.R
 import id.lesku.lesku.helper.SqliteDbHelper
 import id.lesku.lesku.model.Student
+import id.lesku.lesku.utils.SchoolLevel
+import id.lesku.lesku.utils.Sex
 import kotlinx.android.synthetic.main.activity_add_student.*
 import java.util.*
 
 class AddStudentActivity : AppCompatActivity() {
     private lateinit var strStudentName: String
+    private lateinit var strStudentSex: String
     private lateinit var strStudentPhone: String
     private lateinit var strStudentWhatsapp: String
-    private lateinit var strStudentAddress: String
+    private var strStudentAddress: String? = null
     private lateinit var strStudentSchool: String
     private lateinit var strStudentSchoolLevel: String
     private lateinit var strStudentGradeLevel: String
@@ -33,6 +39,41 @@ class AddStudentActivity : AppCompatActivity() {
         setTitle(R.string.add_student_activity_title)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        //Spinner Sex
+        val listSex = arrayOf(Sex.L.toString(), Sex.P.toString())
+        val spinnerSexAdapter = ArrayAdapter<String>(this@AddStudentActivity,
+                R.layout.activity_add_student_spinner_sex_item, listSex)
+        addStudentSpinnerSex.adapter = spinnerSexAdapter
+        addStudentSpinnerSex.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                strStudentSex = spinnerSexAdapter.getItem(position)
+            }
+
+        }
+
+        //Spinner School Level
+        val listSchoolLevel = arrayOf(SchoolLevel.SD.toString(), SchoolLevel.SMP.toString(),
+                SchoolLevel.SMA.toString(), SchoolLevel.SMK.toString(),
+                SchoolLevel.PRAKULIAH.toString(), SchoolLevel.KULIAH.toString())
+        val spinnerSchoolLevelAdapter = ArrayAdapter<String>(this@AddStudentActivity,
+                R.layout.activity_add_student_spinner_sex_item, listSchoolLevel)
+        addStudentSpinnerSchoolLevel.adapter = spinnerSchoolLevelAdapter
+        addStudentSpinnerSchoolLevel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                strStudentSchoolLevel = spinnerSchoolLevelAdapter.getItem(position)
+            }
+
+        }
+
+        //Btn Listener
         addStudentBtnSave.setOnClickListener {
             showKeyboard(false)
             if(validateStudentData()){
@@ -41,6 +82,7 @@ class AddStudentActivity : AppCompatActivity() {
                         Date(),
                         Date(),
                         strStudentName,
+                        strStudentSex,
                         strStudentPhone,
                         strStudentWhatsapp,
                         strStudentAddress,
@@ -119,15 +161,6 @@ class AddStudentActivity : AppCompatActivity() {
             addStudentEtSchool.error = null
         }
 
-        //School Level
-        if(addStudentEtSchoolLevel.text.toString().isEmpty()){
-            addStudentEtSchoolLevel.error = "isi SD/SMP/SMA/Kuliah"
-            valid = false
-        }else{
-            strStudentSchoolLevel = addStudentEtSchoolLevel.text.toString()
-            addStudentEtSchoolLevel.error = null
-        }
-
         //Grade Level
         if(addStudentEtGradeLevel.text.toString().isEmpty()){
             addStudentEtGradeLevel.error = "isi kelas/tingkat berapa"
@@ -174,10 +207,12 @@ class AddStudentActivity : AppCompatActivity() {
         }
 
         //ParentAddress
-        strStudentParentAddress = if(addStudentEtParentAdress.text.toString().isEmpty()){
-            strStudentAddress
+        if(addStudentEtParentAdress.text.toString().isEmpty()){
+            if(strStudentAddress != null){
+                strStudentParentAddress = strStudentAddress!!
+            }
         }else{
-            addStudentEtParentAdress.text.toString()
+            strStudentParentAddress = addStudentEtParentAdress.text.toString()
         }
 
         //Return

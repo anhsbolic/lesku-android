@@ -19,6 +19,7 @@ class SqliteDbHelper(context: Context)
                 + KEY_STUDENT_CREATED_DATE + " TEXT,"
                 + KEY_STUDENT_UPDATED_DATE + " TEXT,"
                 + KEY_STUDENT_NAME + " TEXT,"
+                + KEY_STUDENT_SEX + " TEXT,"
                 + KEY_STUDENT_PHONE + " TEXT,"
                 + KEY_STUDENT_WHATSAPP + " TEXT,"
                 + KEY_STUDENT_ADDRESS + " TEXT,"
@@ -50,11 +51,12 @@ class SqliteDbHelper(context: Context)
         val db: SQLiteDatabase = this.writableDatabase
 
         val values = ContentValues()
-        values.put(KEY_STUDENT_NAME, student.name!!)
         val createdDate = MyDateFormatter.getDateInFormat(student.created_date!!)
         values.put(KEY_STUDENT_CREATED_DATE, createdDate)
         val updatedDate = MyDateFormatter.getDateInFormat(student.updated_date!!)
         values.put(KEY_STUDENT_UPDATED_DATE, updatedDate)
+        values.put(KEY_STUDENT_NAME, student.name!!)
+        values.put(KEY_STUDENT_SEX, student.sex!!)
         values.put(KEY_STUDENT_PHONE, student.phone!!)
         if(student.whatsapp != null){
             values.put(KEY_STUDENT_WHATSAPP, student.whatsapp!!)
@@ -84,9 +86,10 @@ class SqliteDbHelper(context: Context)
         val cursor: Cursor = db.query(
                 TABLE_STUDENTS,
                 arrayOf(KEY_STUDENT_ID,
-                        KEY_STUDENT_NAME,
                         KEY_STUDENT_CREATED_DATE,
                         KEY_STUDENT_UPDATED_DATE,
+                        KEY_STUDENT_NAME,
+                        KEY_STUDENT_SEX,
                         KEY_STUDENT_PHONE,
                         KEY_STUDENT_WHATSAPP,
                         KEY_STUDENT_ADDRESS,
@@ -124,7 +127,8 @@ class SqliteDbHelper(context: Context)
                 cursor.getString(11),
                 cursor.getString(12),
                 cursor.getString(13),
-                cursor.getString(14)
+                cursor.getString(14),
+                cursor.getString(15)
         )
     }
 
@@ -155,7 +159,8 @@ class SqliteDbHelper(context: Context)
                         cursor.getString(11),
                         cursor.getString(12),
                         cursor.getString(13),
-                        cursor.getString(14)
+                        cursor.getString(14),
+                        cursor.getString(15)
                 )
                 // Adding contact to list
                 studentList.add(student)
@@ -169,11 +174,12 @@ class SqliteDbHelper(context: Context)
         val db: SQLiteDatabase = this.writableDatabase
 
         val values = ContentValues()
-        values.put(KEY_STUDENT_NAME, student.name!!)
         val createdDate = MyDateFormatter.getDateInFormat(student.created_date!!)
         values.put(KEY_STUDENT_CREATED_DATE, createdDate)
         val updatedDate = MyDateFormatter.getDateInFormat(student.updated_date!!)
         values.put(KEY_STUDENT_UPDATED_DATE, updatedDate)
+        values.put(KEY_STUDENT_NAME, student.name!!)
+        values.put(KEY_STUDENT_SEX, student.sex!!)
         values.put(KEY_STUDENT_PHONE, student.phone!!)
         if(student.whatsapp != null){
             values.put(KEY_STUDENT_WHATSAPP, student.whatsapp!!)
@@ -225,6 +231,7 @@ class SqliteDbHelper(context: Context)
         val KEY_STUDENT_CREATED_DATE: String = "created_date"
         val KEY_STUDENT_UPDATED_DATE: String = "updated_date"
         val KEY_STUDENT_NAME: String = "name"
+        val KEY_STUDENT_SEX: String = "sex"
         val KEY_STUDENT_PHONE: String = "phone"
         val KEY_STUDENT_WHATSAPP: String = "whatsapp"
         val KEY_STUDENT_ADDRESS: String = "address"
