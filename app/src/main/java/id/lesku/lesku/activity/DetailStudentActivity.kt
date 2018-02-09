@@ -3,6 +3,7 @@ package id.lesku.lesku.activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import id.lesku.lesku.R
+import id.lesku.lesku.adapter.DetailStudentFragmentAdapter
 import id.lesku.lesku.model.Student
 import id.lesku.lesku.utils.Sex
 import kotlinx.android.synthetic.main.activity_detail_student.*
@@ -33,6 +34,12 @@ class DetailStudentActivity : AppCompatActivity() {
             }
             detailStudentTxtName.text = student.name!!
         }
+
+        //Set Tab Layout
+        val fragmentAdapter = DetailStudentFragmentAdapter(this@DetailStudentActivity,
+                supportFragmentManager)
+        detailStudentViewPager.adapter = fragmentAdapter
+        detailStudentTabLayout.setupWithViewPager(detailStudentViewPager)
     }
 
     companion object {

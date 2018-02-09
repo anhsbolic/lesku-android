@@ -27,4 +27,12 @@
 
     <!-- ADD STUDENT -->
     <string name="add_student_activity_title">Tambah Siswa</string>
+
+    <!-- DETAIL STUDENT -->
+    <string name="add_student_recapitulation_fragment_title">Rekap Les</string>
+    <string name="add_student_parent_fragment_title">Orangtua</string>
+    <string name="add_student_profile_fragment_title">Data Siswa</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

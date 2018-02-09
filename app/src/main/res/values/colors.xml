@@ -6,6 +6,8 @@
 
     <color name="colorTextPlaceholder">#688c96</color>
     <color name="colorTextWhite">#ffffff</color>
+    <color name="colorTextSelectedTab">#ffffff</color>
+    <color name="colorTextUnSelectedTab">#d4d4d4</color>
 
     <color name="colorTransparent">#00ffffff</color>
     <color name="colorToolbarIcon">#ffffff</color>
