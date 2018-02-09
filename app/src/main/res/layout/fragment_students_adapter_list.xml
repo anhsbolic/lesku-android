@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp">
+
+    <ImageView
+        android:id="@+id/studentsAdapterListImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="ContentDescription"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/studentsAdapterListName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="14sp"
+        android:layout_toEndOf="@id/studentsAdapterListImg"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:id="@+id/studentsAdapterListGradeLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="10dp"/>
+        android:textSize="12sp"
+        android:layout_below="@id/studentsAdapterListName"
+        android:layout_alignStart="@id/studentsAdapterListName"/>
 
     <TextView
         android:id="@+id/studentsAdapterListSchool"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:layout_marginBottom="5dp"
-        android:layout_marginStart="10dp"/>
+        android:layout_below="@id/studentsAdapterListGradeLevel"
+        android:layout_alignStart="@id/studentsAdapterListName"/>
 
     <TextView
         android:id="@+id/studentsAdapterListAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:layout_marginBottom="5dp"
-        android:layout_marginStart="10dp"/>
+        android:layout_below="@id/studentsAdapterListSchool"
+        android:layout_alignStart="@id/studentsAdapterListName"/>
 
-</LinearLayout>
+</RelativeLayout>
