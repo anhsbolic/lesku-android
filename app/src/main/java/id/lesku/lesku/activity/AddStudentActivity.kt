@@ -1,9 +1,11 @@
 package id.lesku.lesku.activity
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import id.lesku.lesku.R
 import id.lesku.lesku.helper.SqliteDbHelper
@@ -29,8 +31,10 @@ class AddStudentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_student)
         setTitle(R.string.add_student_activity_title)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         addStudentBtnSave.setOnClickListener {
+            showKeyboard(false)
             if(validateStudentData()){
                 val student = Student(
                         null,
@@ -50,6 +54,19 @@ class AddStudentActivity : AppCompatActivity() {
                         strStudentParentAddress
                 )
                 addStudentToSQLiteDb(student)
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            android.R.id.home ->{
+                showKeyboard(false)
+                onBackPressed()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
             }
         }
     }
@@ -181,5 +198,12 @@ class AddStudentActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun showKeyboard(showKeyboard: Boolean){
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(currentFocus!!.windowToken,
+                        if (showKeyboard) InputMethodManager.SHOW_FORCED
+                        else InputMethodManager.HIDE_NOT_ALWAYS )
     }
 }
