@@ -82,6 +82,7 @@ class StudentsFragment : Fragment() {
 
     private fun goToDetailStudent(student: Student){
         val intent = Intent(activity, DetailStudentActivity::class.java)
+        intent.putExtra(DetailStudentActivity.DATA_STUDENT, student)
         startActivity(intent)
     }
 
