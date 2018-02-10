@@ -18,10 +18,10 @@ class DetailStudentActivity : AppCompatActivity() {
         setSupportActionBar(detailStudentToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
         detailStudentToolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+        title = null
 
         //Get Data
         if(intent.hasExtra(DATA_STUDENT)){
@@ -32,7 +32,7 @@ class DetailStudentActivity : AppCompatActivity() {
             }else{
                 detailStudentImg.setImageResource(R.drawable.student_girl)
             }
-            detailStudentTxtName.text = student.name!!
+            title = student.name!!
         }
 
         //Set Tab Layout
@@ -40,6 +40,7 @@ class DetailStudentActivity : AppCompatActivity() {
                 supportFragmentManager)
         detailStudentViewPager.adapter = fragmentAdapter
         detailStudentTabLayout.setupWithViewPager(detailStudentViewPager)
+
     }
 
     companion object {
