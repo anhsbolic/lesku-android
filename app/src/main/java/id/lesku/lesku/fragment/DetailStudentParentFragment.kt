@@ -1,5 +1,6 @@
 package id.lesku.lesku.fragment
 
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import id.lesku.lesku.R
 import id.lesku.lesku.activity.DetailStudentActivity
@@ -45,6 +47,15 @@ class DetailStudentParentFragment : Fragment() {
             dialPhoneNumber(strPhoneNumber)
         }
 
+        detailStudentParentBtnWhatsapp.setOnClickListener {
+            var strWhatsappNumber = student!!.parent_whatsapp!!
+            if(strWhatsappNumber.startsWith("0")){
+                strWhatsappNumber = strWhatsappNumber.substring(1)
+                strWhatsappNumber = "+62$strWhatsappNumber"
+            }
+            openWhatsapp(strWhatsappNumber)
+        }
+
     }
 
     private fun setDataToUI(student: Student) {
@@ -63,6 +74,21 @@ class DetailStudentParentFragment : Fragment() {
         intent.data = Uri.parse("tel:" + phoneNumber)
         if (intent.resolveActivity(activity!!.packageManager) != null) {
             startActivity(intent)
+        }
+    }
+
+    private fun openWhatsapp(waNumber: String){
+        try{
+            val sendIntent = Intent("android.intent.action.MAIN")
+            sendIntent.component = ComponentName("com.whatsapp", "com.whatsapp.Conversation")
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT,"")
+            sendIntent.putExtra("jid", waNumber+"@s.whatsapp.net")
+            sendIntent.`package` = "com.whatsapp"
+            activity!!.startActivity(sendIntent)
+        }catch (e: Exception){
+            Toast.makeText(activity, "Whatsapp belum terinstall di HP Anda",
+                    Toast.LENGTH_SHORT).show()
         }
     }
 
