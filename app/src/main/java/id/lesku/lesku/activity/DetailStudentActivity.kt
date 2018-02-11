@@ -2,6 +2,8 @@ package id.lesku.lesku.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.ActionBar
+import android.util.Log
 import id.lesku.lesku.R
 import id.lesku.lesku.adapter.DetailStudentFragmentAdapter
 import id.lesku.lesku.model.Student
@@ -26,13 +28,7 @@ class DetailStudentActivity : AppCompatActivity() {
         //Get Data
         if(intent.hasExtra(DATA_STUDENT)){
             student = intent.getParcelableExtra(DATA_STUDENT)
-            val sex = student.sex!!
-            if(sex == Sex.L.toString()){
-                detailStudentImg.setImageResource(R.drawable.student_boy)
-            }else{
-                detailStudentImg.setImageResource(R.drawable.student_girl)
-            }
-            title = student.name!!
+            setDataToUI(student)
         }
 
         //Set Tab Layout
@@ -43,8 +39,24 @@ class DetailStudentActivity : AppCompatActivity() {
 
     }
 
+    private fun setDataToUI(student: Student) {
+        val sex = student.sex!!
+        if(sex == Sex.L.toString()){
+            detailStudentImg.setImageResource(R.drawable.student_boy)
+        }else{
+            detailStudentImg.setImageResource(R.drawable.student_girl)
+        }
+        title = student.name!!
+    }
+
     fun getStudentData(): Student{
         return student
+    }
+
+    fun updateStudentDataAndUI(studentData: Student){
+        student = studentData
+        setDataToUI(student)
+        detailStudentCollapsingToolbarLayout.title = student.name!!
     }
 
     companion object {

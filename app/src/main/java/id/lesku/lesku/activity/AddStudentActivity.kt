@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import id.lesku.lesku.R
+import id.lesku.lesku.fragment.DetailStudentProfileFragment
 import id.lesku.lesku.fragment.StudentsFragment
 import id.lesku.lesku.helper.SqliteDbHelper
 import id.lesku.lesku.model.Student
@@ -35,7 +36,7 @@ class AddStudentActivity : AppCompatActivity() {
     private lateinit var strStudentParentAddress: String
 
     private var isInEditMode: Boolean = false
-    private var student: Student? = null
+    private var studentData: Student? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,30 +87,30 @@ class AddStudentActivity : AppCompatActivity() {
                 setTitle(R.string.add_student_activity_title_update_profile)
 
                 //get data student
-                student = intent.getParcelableExtra(DATA_STUDENT)
+                studentData = intent.getParcelableExtra(DATA_STUDENT)
 
                 //update UI
                 addStudentBtnAdd.visibility = View.GONE
                 addStudentBtnSave.visibility = View.VISIBLE
-                addStudentEtName.setText(student!!.name!!)
-                addStudentEtPhone.setText(student!!.phone!!)
-                addStudentEtWhatsapp.setText(student!!.whatsapp!!)
-                addStudentEtAddress.setText(student!!.address!!)
-                addStudentEtSchool.setText(student!!.school!!)
-                addStudentEtGradeLevel.setText(student!!.grade_level!!)
-                addStudentEtSubject.setText(student!!.subject!!)
-                addStudentEtParentName.setText(student!!.parent_name!!)
-                addStudentEtParentPhone.setText(student!!.parent_phone!!)
-                addStudentEtParentWhatsapp.setText(student!!.parent_whatsapp!!)
-                addStudentEtParentAdress.setText(student!!.parent_address!!)
-                val studentSex = student!!.sex!!
+                addStudentEtName.setText(studentData!!.name!!)
+                addStudentEtPhone.setText(studentData!!.phone!!)
+                addStudentEtWhatsapp.setText(studentData!!.whatsapp!!)
+                addStudentEtAddress.setText(studentData!!.address!!)
+                addStudentEtSchool.setText(studentData!!.school!!)
+                addStudentEtGradeLevel.setText(studentData!!.grade_level!!)
+                addStudentEtSubject.setText(studentData!!.subject!!)
+                addStudentEtParentName.setText(studentData!!.parent_name!!)
+                addStudentEtParentPhone.setText(studentData!!.parent_phone!!)
+                addStudentEtParentWhatsapp.setText(studentData!!.parent_whatsapp!!)
+                addStudentEtParentAdress.setText(studentData!!.parent_address!!)
+                val studentSex = studentData!!.sex!!
                 for(i in 0 until listSex.size){
                     if(studentSex == listSex[i]){
                         addStudentSpinnerSex.setSelection(i)
                         break
                     }
                 }
-                val studentSchoolLevel = student!!.school_level!!
+                val studentSchoolLevel = studentData!!.school_level!!
                 for(i in 0 until listSchoolLevel.size){
                     if(studentSchoolLevel == listSchoolLevel[i]){
                         addStudentSpinnerSchoolLevel.setSelection(i)
@@ -143,6 +144,33 @@ class AddStudentActivity : AppCompatActivity() {
                         strStudentParentAddress
                 )
                 addStudentToSQLiteDb(student)
+            }
+        }
+
+        addStudentBtnSave.setOnClickListener {
+            showKeyboard(false)
+            if(validateStudentData()){
+                if(studentData != null){
+                    val student = Student(
+                            studentData!!.id_student!!,
+                            studentData!!.created_date!!,
+                            Date(),
+                            strStudentName,
+                            strStudentSex,
+                            strStudentPhone,
+                            strStudentWhatsapp,
+                            strStudentAddress,
+                            strStudentSchool,
+                            strStudentSchoolLevel,
+                            strStudentGradeLevel,
+                            strStudentSubject,
+                            strStudentParentName,
+                            strStudentParentPhone,
+                            strStudentParentWhatsapp,
+                            strStudentParentAddress
+                    )
+                    updateStudentDataAtSQLiteDb(student)
+                }
             }
         }
     }
@@ -277,9 +305,27 @@ class AddStudentActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateStudentDataAtSQLiteDb(student: Student) {
+        val dbStudent = SqliteDbHelper(this@AddStudentActivity)
+        val dataUpdated = dbStudent.updateStudent(student)
+        if(dataUpdated == -1) {
+            Toast.makeText(this@AddStudentActivity, "Gagal mengubah profil siswa",
+                    Toast.LENGTH_SHORT).show()
+        }else{
+            sendUpdateResultToDetailStudentProfileFragment(student)
+        }
+    }
+
     private fun sendResultToStudentsFragment() {
         val intent = Intent()
         setResult(StudentsFragment.ADD_STUDENT_SUCCESS, intent)
+        finish()
+    }
+
+    private fun sendUpdateResultToDetailStudentProfileFragment(student: Student) {
+        val intent = Intent()
+        intent.putExtra(DetailStudentProfileFragment.EDIT_PROFILE_SUCCESS_DATA_STUDENT, student)
+        setResult(DetailStudentProfileFragment.EDIT_PROFILE_SUCCESS, intent)
         finish()
     }
 

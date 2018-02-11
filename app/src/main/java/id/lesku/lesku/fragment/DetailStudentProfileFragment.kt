@@ -32,14 +32,7 @@ class DetailStudentProfileFragment : Fragment() {
 
         //Set data to UI
         if(student != null){
-            detailStudentProfileTxtName.text = student!!.name!!
-            detailStudentProfileTxtPhone.text = student!!.phone!!
-            detailStudentProfileTxtWhatsapp.text = student!!.whatsapp!!
-            detailStudentProfileTxtAddress.text = student!!.address!!
-            detailStudentProfileTxtSchool.text = student!!.school!!
-            detailStudentProfileTxtSchoolLevel.text = student!!.school_level!!
-            detailStudentProfileTxtGradeLevel.text = student!!.grade_level!!
-            detailStudentProfileTxtSubject.text = student!!.subject!!
+            setDataToUI(student!!)
         }
 
         //UI Handling & listener
@@ -51,6 +44,17 @@ class DetailStudentProfileFragment : Fragment() {
             deleteStudentData()
         }
 
+    }
+
+    private fun setDataToUI(student: Student) {
+        detailStudentProfileTxtName.text = student.name!!
+        detailStudentProfileTxtPhone.text = student.phone!!
+        detailStudentProfileTxtWhatsapp.text = student.whatsapp!!
+        detailStudentProfileTxtAddress.text = student.address!!
+        detailStudentProfileTxtSchool.text = student.school!!
+        detailStudentProfileTxtSchoolLevel.text = student.school_level!!
+        detailStudentProfileTxtGradeLevel.text = student.grade_level!!
+        detailStudentProfileTxtSubject.text = student.subject!!
     }
 
     private fun editStudentData(student: Student) {
@@ -69,7 +73,11 @@ class DetailStudentProfileFragment : Fragment() {
             EDIT_PROFILE ->{
                 when(resultCode){
                     EDIT_PROFILE_SUCCESS ->{
-
+                        if(data != null){
+                            student = data.getParcelableExtra(EDIT_PROFILE_SUCCESS_DATA_STUDENT)
+                            setDataToUI(student!!)
+                            (activity as DetailStudentActivity).updateStudentDataAndUI(student!!)
+                        }
                     }
                 }
             }
@@ -82,6 +90,7 @@ class DetailStudentProfileFragment : Fragment() {
     companion object {
         val EDIT_PROFILE: Int = 11
         val EDIT_PROFILE_SUCCESS: Int = 12
+        val EDIT_PROFILE_SUCCESS_DATA_STUDENT = "EditProfileSuccessDataStudent"
 
         fun newInstance(): DetailStudentProfileFragment {
             val fragment = DetailStudentProfileFragment()
