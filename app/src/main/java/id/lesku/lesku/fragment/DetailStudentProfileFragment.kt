@@ -1,6 +1,8 @@
 package id.lesku.lesku.fragment
 
+import android.content.ComponentName
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -38,6 +40,29 @@ class DetailStudentProfileFragment : Fragment() {
         }
 
         //UI Handling & listener
+        detailStudentProfileBtnCall.setOnClickListener {
+            val strPhoneNumber = student!!.parent_phone!!
+            dialPhoneNumber(strPhoneNumber)
+        }
+
+        detailStudentProfileBtnSendMessage.setOnClickListener {
+            var strPhoneNumber = student!!.parent_phone!!
+            if(strPhoneNumber.startsWith("0")){
+                strPhoneNumber = strPhoneNumber.substring(1)
+                strPhoneNumber = "+62$strPhoneNumber"
+            }
+            sendMessageToPhoneNumber(strPhoneNumber)
+        }
+
+        detailStudentProfileBtnWhatsapp.setOnClickListener {
+            var strWhatsappNumber = student!!.parent_whatsapp!!
+            if(strWhatsappNumber.startsWith("0")){
+                strWhatsappNumber = strWhatsappNumber.substring(1)
+                strWhatsappNumber = "+62$strWhatsappNumber"
+            }
+            openWhatsapp(strWhatsappNumber)
+        }
+
         detailStudentProfileBtnEdit.setOnClickListener {
             editStudentData(student!!)
         }
@@ -69,6 +94,34 @@ class DetailStudentProfileFragment : Fragment() {
         detailStudentProfileTxtSchoolLevel.text = student.school_level!!
         detailStudentProfileTxtGradeLevel.text = student.grade_level!!
         detailStudentProfileTxtSubject.text = student.subject!!
+    }
+
+    private fun dialPhoneNumber(phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:" + phoneNumber)
+        if (intent.resolveActivity(activity!!.packageManager) != null) {
+            activity!!.startActivity(intent)
+        }
+    }
+
+    private fun sendMessageToPhoneNumber(strPhoneNumber: String) {
+        activity!!.startActivity(Intent(Intent.ACTION_VIEW, Uri.fromParts("sms",
+                strPhoneNumber, null)))
+    }
+
+    private fun openWhatsapp(waNumber: String){
+        try{
+            val sendIntent = Intent("android.intent.action.MAIN")
+            sendIntent.component = ComponentName("com.whatsapp", "com.whatsapp.Conversation")
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT,"")
+            sendIntent.putExtra("jid", waNumber+"@s.whatsapp.net")
+            sendIntent.`package` = "com.whatsapp"
+            activity!!.startActivity(sendIntent)
+        }catch (e: Exception){
+            Toast.makeText(activity, "Whatsapp belum terinstall di HP Anda",
+                    Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun editStudentData(student: Student) {
