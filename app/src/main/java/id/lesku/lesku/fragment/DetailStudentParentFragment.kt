@@ -1,6 +1,7 @@
 package id.lesku.lesku.fragment
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -39,6 +40,11 @@ class DetailStudentParentFragment : Fragment() {
             editParentStudentData(student!!)
         }
 
+        detailStudentParentBtnCall.setOnClickListener {
+            val strPhoneNumber = student!!.parent_phone!!
+            dialPhoneNumber(strPhoneNumber)
+        }
+
     }
 
     private fun setDataToUI(student: Student) {
@@ -50,6 +56,14 @@ class DetailStudentParentFragment : Fragment() {
             detailStudentParentTxtWhatsapp.text = student.parent_whatsapp!!
         }
         detailStudentParentTxtAddress.text = student.parent_address!!
+    }
+
+    private fun dialPhoneNumber(phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:" + phoneNumber)
+        if (intent.resolveActivity(activity!!.packageManager) != null) {
+            startActivity(intent)
+        }
     }
 
     private fun editParentStudentData(student: Student) {
