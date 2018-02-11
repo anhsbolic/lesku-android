@@ -1,11 +1,11 @@
 package id.lesku.lesku.activity
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.ActionBar
-import android.util.Log
 import id.lesku.lesku.R
 import id.lesku.lesku.adapter.DetailStudentFragmentAdapter
+import id.lesku.lesku.fragment.StudentsFragment
 import id.lesku.lesku.model.Student
 import id.lesku.lesku.utils.Sex
 import kotlinx.android.synthetic.main.activity_detail_student.*
@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_detail_student.*
 class DetailStudentActivity : AppCompatActivity() {
 
     private lateinit var student: Student
+    private var isDataUpdated: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +58,17 @@ class DetailStudentActivity : AppCompatActivity() {
         student = studentData
         setDataToUI(student)
         detailStudentCollapsingToolbarLayout.title = student.name!!
+        isDataUpdated = true
+    }
+
+    override fun onBackPressed() {
+        if(isDataUpdated){
+            val intent = Intent()
+            setResult(StudentsFragment.DETAIL_STUDENT_UPDATED, intent)
+            finish()
+        }else{
+            super.onBackPressed()
+        }
     }
 
     companion object {

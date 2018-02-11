@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,8 +29,6 @@ class StudentsFragment : Fragment() {
     private lateinit var animator: DefaultItemAnimator
     private lateinit var dividerItemDecoration: DividerItemDecoration
 
-    private var isDestroyView: Boolean = false
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -49,17 +46,13 @@ class StudentsFragment : Fragment() {
         dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         studentsRv.addItemDecoration(dividerItemDecoration)
 
+        //Get data students
+        getDataStudent()
+
         //Button Handling & Listener
         studentsFabAddStudents.setOnClickListener {
             addStudent()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        //Get data students
-        getDataStudent()
     }
 
     private fun getDataStudent() {
@@ -95,7 +88,7 @@ class StudentsFragment : Fragment() {
     private fun goToDetailStudent(student: Student){
         val intent = Intent(activity, DetailStudentActivity::class.java)
         intent.putExtra(DetailStudentActivity.DATA_STUDENT, student)
-        startActivity(intent)
+        startActivityForResult(intent, DETAIl_STUDENT)
     }
 
     private fun addStudent() {
@@ -112,6 +105,13 @@ class StudentsFragment : Fragment() {
                     }
                 }
             }
+            DETAIl_STUDENT ->{
+                when(resultCode){
+                    DETAIL_STUDENT_UPDATED ->{
+                        getDataStudent()
+                    }
+                }
+            }
             else ->{
                 super.onActivityResult(requestCode, resultCode, data)
             }
@@ -121,6 +121,9 @@ class StudentsFragment : Fragment() {
     companion object {
         val ADD_STUDENT: Int = 11
         val ADD_STUDENT_SUCCESS: Int = 12
+
+        val DETAIl_STUDENT: Int = 21
+        val DETAIL_STUDENT_UPDATED: Int = 22
 
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
