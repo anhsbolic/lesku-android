@@ -43,6 +43,10 @@ class DetailStudentActivity : AppCompatActivity() {
 
     }
 
+    fun getStudentData(): Student{
+        return student
+    }
+
     companion object {
         val DATA_STUDENT = "DataStudent"
     }

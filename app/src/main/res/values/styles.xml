@@ -33,7 +33,6 @@
     </style>
 
     <style name="WhiteButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@android:color/white</item>
         <item name="colorButtonNormal">@android:color/white</item>
     </style>
 

@@ -6,10 +6,14 @@
 
     <color name="colorTextPlaceholder">#688c96</color>
     <color name="colorTextWhite">#ffffff</color>
+    <color name="colorTextSoftGray">#848484</color>
     <color name="colorTextSelectedTab">#ffffff</color>
     <color name="colorTextUnSelectedTab">#d4d4d4</color>
 
+    <color name="colorBackgroundGray">#ece7e7</color>
     <color name="colorTransparent">#00ffffff</color>
     <color name="colorToolbarIcon">#ffffff</color>
+
+    <color name="colorLineSeparator">#a2a9a9a9</color>
 
 </resources>

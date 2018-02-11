@@ -33,6 +33,19 @@
     <string name="add_student_parent_fragment_title">Orangtua</string>
     <string name="add_student_profile_fragment_title">Data Siswa</string>
 
+    <!-- DETAIL STUDENT PROFILE -->
+    <string name="detail_student_profile_name_title">Nama Lengkap</string>
+    <string name="detail_student_profile_phone_title">No Telp/HP</string>
+    <string name="detail_student_profile_whatsapp_title">No Whatsapp</string>
+    <string name="detail_student_profile_address_title">Alamat</string>
+    <string name="detail_student_profile_school_title">Sekolah / Kampus</string>
+    <string name="detail_student_profile_school_level_title">Tingkat Sekolah</string>
+    <string name="detail_student_profile_grade_level_title">Kelas / Tingkat</string>
+    <string name="detail_student_profile_subject_title">Mata Pelajaran / Mata Kuliah</string>
+    <string name="detail_student_profile_btn_edit">Ubah Profil</string>
+    <string name="detail_student_profile_btn_remove">Hapus Siswa</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
