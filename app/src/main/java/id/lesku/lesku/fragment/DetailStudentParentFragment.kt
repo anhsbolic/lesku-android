@@ -47,6 +47,15 @@ class DetailStudentParentFragment : Fragment() {
             dialPhoneNumber(strPhoneNumber)
         }
 
+        detailStudentParentBtnSendMessage.setOnClickListener {
+            var strPhoneNumber = student!!.parent_phone!!
+            if(strPhoneNumber.startsWith("0")){
+                strPhoneNumber = strPhoneNumber.substring(1)
+                strPhoneNumber = "+62$strPhoneNumber"
+            }
+            sendMessageToPhoneNumber(strPhoneNumber)
+        }
+
         detailStudentParentBtnWhatsapp.setOnClickListener {
             var strWhatsappNumber = student!!.parent_whatsapp!!
             if(strWhatsappNumber.startsWith("0")){
@@ -73,8 +82,13 @@ class DetailStudentParentFragment : Fragment() {
         val intent = Intent(Intent.ACTION_DIAL)
         intent.data = Uri.parse("tel:" + phoneNumber)
         if (intent.resolveActivity(activity!!.packageManager) != null) {
-            startActivity(intent)
+            activity!!.startActivity(intent)
         }
+    }
+
+    private fun sendMessageToPhoneNumber(strPhoneNumber: String) {
+        activity!!.startActivity(Intent(Intent.ACTION_VIEW, Uri.fromParts("sms",
+                strPhoneNumber, null)))
     }
 
     private fun openWhatsapp(waNumber: String){
