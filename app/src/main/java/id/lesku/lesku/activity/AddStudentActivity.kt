@@ -34,6 +34,9 @@ class AddStudentActivity : AppCompatActivity() {
     private lateinit var strStudentParentWhatsapp: String
     private lateinit var strStudentParentAddress: String
 
+    private var isInEditMode: Boolean = false
+    private var student: Student? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_student)
@@ -74,8 +77,51 @@ class AddStudentActivity : AppCompatActivity() {
 
         }
 
+        //Get Data From Intent, if in Edit Profile Condition
+        if(intent.hasExtra(IS_EDIT_MODE)){
+            isInEditMode = intent.getBooleanExtra(IS_EDIT_MODE, false)
+
+            if(isInEditMode){
+                //update title
+                setTitle(R.string.add_student_activity_title_update_profile)
+
+                //get data student
+                student = intent.getParcelableExtra(DATA_STUDENT)
+
+                //update UI
+                addStudentBtnAdd.visibility = View.GONE
+                addStudentBtnSave.visibility = View.VISIBLE
+                addStudentEtName.setText(student!!.name!!)
+                addStudentEtPhone.setText(student!!.phone!!)
+                addStudentEtWhatsapp.setText(student!!.whatsapp!!)
+                addStudentEtAddress.setText(student!!.address!!)
+                addStudentEtSchool.setText(student!!.school!!)
+                addStudentEtGradeLevel.setText(student!!.grade_level!!)
+                addStudentEtSubject.setText(student!!.subject!!)
+                addStudentEtParentName.setText(student!!.parent_name!!)
+                addStudentEtParentPhone.setText(student!!.parent_phone!!)
+                addStudentEtParentWhatsapp.setText(student!!.parent_whatsapp!!)
+                addStudentEtParentAdress.setText(student!!.parent_address!!)
+                val studentSex = student!!.sex!!
+                for(i in 0 until listSex.size){
+                    if(studentSex == listSex[i]){
+                        addStudentSpinnerSex.setSelection(i)
+                        break
+                    }
+                }
+                val studentSchoolLevel = student!!.school_level!!
+                for(i in 0 until listSchoolLevel.size){
+                    if(studentSchoolLevel == listSchoolLevel[i]){
+                        addStudentSpinnerSchoolLevel.setSelection(i)
+                        break
+                    }
+                }
+            }
+        }
+
+
         //Btn Listener
-        addStudentBtnSave.setOnClickListener {
+        addStudentBtnAdd.setOnClickListener {
             showKeyboard(false)
             if(validateStudentData()){
                 val student = Student(
@@ -242,5 +288,10 @@ class AddStudentActivity : AppCompatActivity() {
                 .hideSoftInputFromWindow(currentFocus!!.windowToken,
                         if (showKeyboard) InputMethodManager.SHOW_FORCED
                         else InputMethodManager.HIDE_NOT_ALWAYS )
+    }
+
+    companion object {
+        val IS_EDIT_MODE = "IsEditMode"
+        val DATA_STUDENT = "DataStudent"
     }
 }

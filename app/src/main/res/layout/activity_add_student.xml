@@ -248,13 +248,23 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/addStudentBtnSave"
+            android:id="@+id/addStudentBtnAdd"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Tambahkan Siswa"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:theme="@style/PrimaryButton"/>
+
+        <Button
+            android:id="@+id/addStudentBtnSave"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Simpan"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:theme="@style/PrimaryButton"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

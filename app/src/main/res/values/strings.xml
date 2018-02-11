@@ -27,6 +27,7 @@
 
     <!-- ADD STUDENT -->
     <string name="add_student_activity_title">Tambah Siswa</string>
+    <string name="add_student_activity_title_update_profile">Ubah Profil</string>
 
     <!-- DETAIL STUDENT -->
     <string name="add_student_recapitulation_fragment_title">Rekap Les</string>

@@ -1,5 +1,6 @@
 package id.lesku.lesku.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 
 import id.lesku.lesku.R
 import id.lesku.lesku.activity.DetailStudentActivity
+import id.lesku.lesku.activity.AddStudentActivity
 import id.lesku.lesku.model.Student
 import kotlinx.android.synthetic.main.fragment_detail_student_profile.*
 
@@ -42,7 +44,7 @@ class DetailStudentProfileFragment : Fragment() {
 
         //UI Handling & listener
         detailStudentProfileBtnEdit.setOnClickListener {
-            editStudentData()
+            editStudentData(student!!)
         }
 
         detailStudentProfileBtnDelete.setOnClickListener {
@@ -51,15 +53,36 @@ class DetailStudentProfileFragment : Fragment() {
 
     }
 
-    private fun editStudentData() {
-        Log.d("TES", "UBAH PROFIl")
+    private fun editStudentData(student: Student) {
+        val intent = Intent(activity, AddStudentActivity::class.java)
+        intent.putExtra(AddStudentActivity.IS_EDIT_MODE, true)
+        intent.putExtra(AddStudentActivity.DATA_STUDENT, student)
+        startActivityForResult(intent, EDIT_PROFILE)
     }
 
     private fun deleteStudentData() {
         Log.d("TES", "HAPUS SISWA")
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode){
+            EDIT_PROFILE ->{
+                when(resultCode){
+                    EDIT_PROFILE_SUCCESS ->{
+
+                    }
+                }
+            }
+            else ->{
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+    }
+
     companion object {
+        val EDIT_PROFILE: Int = 11
+        val EDIT_PROFILE_SUCCESS: Int = 12
+
         fun newInstance(): DetailStudentProfileFragment {
             val fragment = DetailStudentProfileFragment()
             val args = Bundle()
