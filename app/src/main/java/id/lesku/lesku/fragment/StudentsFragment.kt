@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,8 @@ class StudentsFragment : Fragment() {
     private lateinit var animator: DefaultItemAnimator
     private lateinit var dividerItemDecoration: DividerItemDecoration
 
+    private var isDestroyView: Boolean = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -46,13 +49,17 @@ class StudentsFragment : Fragment() {
         dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         studentsRv.addItemDecoration(dividerItemDecoration)
 
-        //Get data students
-        getDataStudent()
-
         //Button Handling & Listener
         studentsFabAddStudents.setOnClickListener {
             addStudent()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        //Get data students
+        getDataStudent()
     }
 
     private fun getDataStudent() {
