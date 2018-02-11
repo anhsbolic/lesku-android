@@ -34,6 +34,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/addStudentSpinnerSexLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
@@ -124,6 +125,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/addStudentSpinnerSchoolLevelLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"

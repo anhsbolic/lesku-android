@@ -74,6 +74,7 @@ class DetailStudentProfileFragment : Fragment() {
     private fun editStudentData(student: Student) {
         val intent = Intent(activity, AddStudentActivity::class.java)
         intent.putExtra(AddStudentActivity.IS_EDIT_MODE, true)
+        intent.putExtra(AddStudentActivity.EDIT_MODE, AddStudentActivity.EDIT_MODE_DATA_STUDENT_ONLY)
         intent.putExtra(AddStudentActivity.DATA_STUDENT, student)
         startActivityForResult(intent, EDIT_PROFILE)
     }
