@@ -45,6 +45,10 @@
     <string name="detail_student_profile_subject_title">Mata Pelajaran / Mata Kuliah</string>
     <string name="detail_student_profile_btn_edit">Ubah Profil</string>
     <string name="detail_student_profile_btn_remove">Hapus Siswa</string>
+    <string name="detail_student_profile_dialog_delete_student_message">Anda yakin akan menghapus</string>
+    <string name="detail_student_profile_dialog_delete_student_message_last">dari daftar siswa</string>
+    <string name="detail_student_profile_dialog_delete_student_positive">Ya, Hapus</string>
+    <string name="detail_student_profile_dialog_delete_student_negative">Tidak</string>
 
     <!-- DETAIL STUDENT PARENT -->
     <string name="detail_student_parent_name_title">Nama Lengkap</string>

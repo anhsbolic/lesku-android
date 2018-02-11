@@ -3,15 +3,17 @@ package id.lesku.lesku.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import id.lesku.lesku.R
 import id.lesku.lesku.activity.DetailStudentActivity
 import id.lesku.lesku.activity.AddStudentActivity
 import id.lesku.lesku.model.Student
+import id.lesku.lesku.helper.SqliteDbHelper
 import kotlinx.android.synthetic.main.fragment_detail_student_profile.*
 
 class DetailStudentProfileFragment : Fragment() {
@@ -41,7 +43,19 @@ class DetailStudentProfileFragment : Fragment() {
         }
 
         detailStudentProfileBtnDelete.setOnClickListener {
-            deleteStudentData()
+            val strFirstMessage = getString(R.string.detail_student_profile_dialog_delete_student_message)
+            val strLastMessage = getString(R.string.detail_student_profile_dialog_delete_student_message_last)
+            val strStudentName = student!!.name!!
+            val strDialogMessage = "$strFirstMessage $strStudentName $strLastMessage"
+            AlertDialog.Builder(activity as DetailStudentActivity)
+                    .setMessage(strDialogMessage)
+                    .setPositiveButton(R.string.detail_student_profile_dialog_delete_student_positive,
+                            { _ , _ ->
+                                deleteStudentData(student!!)
+                            })
+                    .setNegativeButton(R.string.detail_student_profile_dialog_delete_student_negative,
+                            null)
+                    .show()
         }
 
     }
@@ -64,8 +78,15 @@ class DetailStudentProfileFragment : Fragment() {
         startActivityForResult(intent, EDIT_PROFILE)
     }
 
-    private fun deleteStudentData() {
-        Log.d("TES", "HAPUS SISWA")
+    private fun deleteStudentData(student: Student) {
+        val dbStudent = SqliteDbHelper(activity as DetailStudentActivity)
+        val dataUpdated = dbStudent.deleteStudent(student)
+        if(dataUpdated == -1) {
+            Toast.makeText(activity, "Gagal menghapus siswa",
+                    Toast.LENGTH_SHORT).show()
+        }else{
+            (activity as DetailStudentActivity).deletedStudentResult()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -201,11 +201,14 @@ class SqliteDbHelper(context: Context)
                 arrayOf(student.id_student!!.toString()))
     }
 
-    fun deleteStudent(student: Student){
+    fun deleteStudent(student: Student): Int{
         val db: SQLiteDatabase = this.writableDatabase
-        db.delete(TABLE_STUDENTS, KEY_STUDENT_ID + " = ?",
+
+        val rowDeleted = db.delete(TABLE_STUDENTS, KEY_STUDENT_ID + " = ?",
                 arrayOf(student.id_student!!.toString()))
         db.close()
+
+        return rowDeleted
     }
 
     fun getStudentTotal(): Int{

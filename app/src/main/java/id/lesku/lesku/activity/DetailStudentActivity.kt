@@ -71,6 +71,12 @@ class DetailStudentActivity : AppCompatActivity() {
         }
     }
 
+    fun deletedStudentResult(){
+        val intent = Intent()
+        setResult(StudentsFragment.DETAIL_STUDENT_UPDATED, intent)
+        finish()
+    }
+
     companion object {
         val DATA_STUDENT = "DataStudent"
     }
