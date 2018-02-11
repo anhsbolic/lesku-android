@@ -46,6 +46,12 @@
     <string name="detail_student_profile_btn_edit">Ubah Profil</string>
     <string name="detail_student_profile_btn_remove">Hapus Siswa</string>
 
+    <!-- DETAIL STUDENT PARENT -->
+    <string name="detail_student_parent_name_title">Nama Lengkap</string>
+    <string name="detail_student_parent_phone_title">No Telp/HP</string>
+    <string name="detail_student_parent_whatsapp_title">No Whatsapp</string>
+    <string name="detail_student_parent_address_title">Alamat</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
