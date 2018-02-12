@@ -23,7 +23,6 @@
         <activity
             android:name=".activity.DashboardActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
             android:theme="@style/Themes.Custom.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity

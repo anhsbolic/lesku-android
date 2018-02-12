@@ -6,13 +6,31 @@
     android:layout_height="match_parent"
     tools:context="id.lesku.lesku.fragment.ScheduleFragment">
 
+    <com.alamkanak.weekview.WeekView
+        android:id="@+id/scheduleWeekView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:eventTextColor="@android:color/white"
+        app:textSize="12sp"
+        app:hourHeight="60dp"
+        app:headerColumnPadding="8dp"
+        app:headerColumnTextColor="#8f000000"
+        app:headerRowPadding="12dp"
+        app:columnGap="8dp"
+        app:noOfVisibleDays="3"
+        app:headerRowBackgroundColor="#ffefefef"
+        app:dayBackgroundColor="#05000000"
+        app:todayBackgroundColor="#1848adff"
+        app:headerColumnBackground="#ffffffff"/>
+
     <ImageView
         android:id="@+id/scheduleImgPlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/bg_schedule"
         tools:ignore="ContentDescription"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/scheduleTxtPlaceholder"
@@ -23,7 +41,8 @@
         android:textStyle="bold"
         android:textColor="@color/colorTextPlaceholder"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/scheduleImgPlaceholder"/>
+        android:layout_below="@id/scheduleImgPlaceholder"
+        android:visibility="gone"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/scheduleFabAddStudents"
@@ -37,6 +56,7 @@
         app:fabSize="auto"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        app:backgroundTint="@color/colorPrimaryDark"/>
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:visibility="gone"/>
 
 </RelativeLayout>
