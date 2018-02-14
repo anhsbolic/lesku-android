@@ -47,7 +47,6 @@
         app:fabSize="auto"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        app:backgroundTint="@color/colorPrimaryDark"
-        android:visibility="gone"/>
+        app:backgroundTint="@color/colorPrimaryDark"/>
 
 </RelativeLayout>

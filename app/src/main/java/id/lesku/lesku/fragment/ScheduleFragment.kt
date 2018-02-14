@@ -1,5 +1,6 @@
 package id.lesku.lesku.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -12,6 +13,7 @@ import com.prolificinteractive.materialcalendarview.CalendarMode
 
 import id.lesku.lesku.R
 import id.lesku.lesku.activity.DashboardActivity
+import id.lesku.lesku.activity.CreateScheduleActivity
 import id.lesku.lesku.utils.EventCalendarDecorator
 import kotlinx.android.synthetic.main.fragment_schedule.*
 import java.util.*
@@ -47,6 +49,16 @@ class ScheduleFragment : Fragment() {
             Log.d("TES", date.toString())
         }
 
+        //Button Handling & Listener
+        scheduleFabAddStudents.setOnClickListener {
+            createSchedule()
+        }
+
+    }
+
+    private fun createSchedule() {
+        val intent = Intent(activity, CreateScheduleActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {
