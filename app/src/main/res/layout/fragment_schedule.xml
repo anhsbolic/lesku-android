@@ -6,22 +6,13 @@
     android:layout_height="match_parent"
     tools:context="id.lesku.lesku.fragment.ScheduleFragment">
 
-    <com.alamkanak.weekview.WeekView
-        android:id="@+id/scheduleWeekView"
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/scheduleCalendar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:eventTextColor="@android:color/white"
-        app:textSize="12sp"
-        app:hourHeight="60dp"
-        app:headerColumnPadding="8dp"
-        app:headerColumnTextColor="#8f000000"
-        app:headerRowPadding="12dp"
-        app:columnGap="8dp"
-        app:noOfVisibleDays="3"
-        app:headerRowBackgroundColor="#ffefefef"
-        app:dayBackgroundColor="#05000000"
-        app:todayBackgroundColor="#1848adff"
-        app:headerColumnBackground="#ffffffff"/>
+        android:layout_height="wrap_content"
+        app:mcv_showOtherDates="all"
+        app:mcv_selectionColor="#00F"/>
 
     <ImageView
         android:id="@+id/scheduleImgPlaceholder"
