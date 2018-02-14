@@ -203,6 +203,22 @@ class MyDateFormatter {
             return formatTime.format(date)
         }
 
+        fun getTime(hour: Int, minute: Int): String {
+            val strHour = if(hour < 10){
+                "0$hour"
+            }else{
+                "$hour"
+            }
+
+            val strMinute = if(minute < 10){
+                "0$minute"
+            }else{
+                "$minute"
+            }
+
+            return "$strHour:$strMinute"
+        }
+
         fun dateAndTimeBahasa(date: Date): String{
             val strDate = dateBahasa(date)
             val strTime = getClockTime(date)
