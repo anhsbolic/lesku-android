@@ -58,7 +58,7 @@
     <string name="detail_student_parent_address_title">Alamat</string>
     <string name="detail_student_parent_btn_edit">Ubah Data Orang Tua Siswa</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- CREATE SCHEDULE -->
+    <string name="create_schedule_activity_title">Tambah Jadwal Les</string>
 
 </resources>

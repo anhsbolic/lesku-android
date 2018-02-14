@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity
             android:name=".activity.SplashScreenActivity"
             android:configChanges="orientation"
@@ -23,8 +24,13 @@
         <activity
             android:name=".activity.DashboardActivity"
             android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/Themes.Custom.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.AddStudentActivity"
             android:configChanges="orientation"
@@ -36,7 +42,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Themes.Custom.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activity.CreateScheduleActivity"></activity>
+        <activity
+            android:name=".activity.CreateScheduleActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
     </application>
 
 </manifest>
