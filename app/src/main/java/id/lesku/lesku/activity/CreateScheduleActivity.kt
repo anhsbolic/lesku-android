@@ -18,6 +18,7 @@ import id.lesku.lesku.utils.ReminderTime
 import kotlinx.android.synthetic.main.activity_create_schedule.*
 import kotlinx.android.synthetic.main.dialog_date_picker.*
 import kotlinx.android.synthetic.main.dialog_set_reminder.*
+import kotlinx.android.synthetic.main.dialog_set_repetition.*
 import kotlinx.android.synthetic.main.dialog_time_picker.*
 import java.util.*
 
@@ -399,7 +400,22 @@ class CreateScheduleActivity : AppCompatActivity() {
     }
 
     private fun setRepetition(){
+        //set dialog datePicker
+        val dialogSetRepetition = Dialog(this@CreateScheduleActivity)
+        dialogSetRepetition.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogSetRepetition.setCanceledOnTouchOutside(true)
+        dialogSetRepetition.setCancelable(true)
+        dialogSetRepetition.setContentView(R.layout.dialog_set_repetition)
+        val window = dialogSetRepetition.window
+        val param = window.attributes
+        param.gravity = Gravity.CENTER
+        param.width = WindowManager.LayoutParams.MATCH_PARENT
+        window.attributes = param
+        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        dialogSetRepetition.show()
 
+        //get layout component
+        val etWeeks: EditText = dialogSetRepetition.setRepetitionEtWeeks
     }
 
     private fun saveSchedule(){
