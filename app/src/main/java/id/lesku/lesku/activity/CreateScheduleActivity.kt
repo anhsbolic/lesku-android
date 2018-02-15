@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -13,8 +14,10 @@ import id.lesku.lesku.R
 import id.lesku.lesku.helper.SqliteDbHelper
 import id.lesku.lesku.model.Student
 import id.lesku.lesku.utils.MyDateFormatter
+import id.lesku.lesku.utils.ReminderTime
 import kotlinx.android.synthetic.main.activity_create_schedule.*
 import kotlinx.android.synthetic.main.dialog_date_picker.*
+import kotlinx.android.synthetic.main.dialog_set_reminder.*
 import kotlinx.android.synthetic.main.dialog_time_picker.*
 import java.util.*
 
@@ -27,6 +30,8 @@ class CreateScheduleActivity : AppCompatActivity() {
     private var startMinutePicked: Int = 0
     private var endHourPicked: Int = 0
     private var endMinutePicked: Int = 0
+    private var intReminderTimeInMillis: Int = 0
+    private var isReminderSet: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +89,13 @@ class CreateScheduleActivity : AppCompatActivity() {
         createScheduleReminderAlarmLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
             setReminderAlarm()
+        }
+
+        createScheduleBtnReminderReset.setOnClickListener {
+            intReminderTimeInMillis = 0
+            isReminderSet = false
+            createScheduleTxtReminderAlarmTime.text = "set alarm"
+            createScheduleBtnReminderReset.visibility = View.GONE
         }
 
         createScheduleRepetitionLayout.setOnClickListener {
@@ -287,7 +299,103 @@ class CreateScheduleActivity : AppCompatActivity() {
     }
 
     private fun setReminderAlarm(){
+        //set dialog datePicker
+        val dialogSetReminder = Dialog(this@CreateScheduleActivity)
+        dialogSetReminder.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogSetReminder.setCanceledOnTouchOutside(true)
+        dialogSetReminder.setCancelable(true)
+        dialogSetReminder.setContentView(R.layout.dialog_set_reminder)
+        val window = dialogSetReminder.window
+        val param = window.attributes
+        param.gravity = Gravity.CENTER
+        param.width = WindowManager.LayoutParams.MATCH_PARENT
+        window.attributes = param
+        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        dialogSetReminder.show()
 
+        //get layout component
+        val etValue: EditText = dialogSetReminder.setAlarmEtValue
+        val layoutMinutes: RelativeLayout = dialogSetReminder.setAlarmInMinutesLayout
+        val txtMinutes: TextView = dialogSetReminder.setAlarmInMinutesTitle
+        val imgMinute: ImageView = dialogSetReminder.setAlarmImgInMinutes
+        val layoutHour: RelativeLayout = dialogSetReminder.setAlarmInHourLayout
+        val txtHour: TextView = dialogSetReminder.setAlarmInHourTitle
+        val imgHour: ImageView = dialogSetReminder.setAlarmImgInHour
+        val layoutDay: RelativeLayout = dialogSetReminder.setAlarmInDayLayout
+        val txtDay: TextView = dialogSetReminder.setAlarmInDayTitle
+        val imgDay: ImageView = dialogSetReminder.setAlarmImgInDay
+        val btnSet: Button = dialogSetReminder.setAlarmBtnSet
+
+        //init value
+        val colorTextGray = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextGray)
+        val colorTextPrimary = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextPrimary)
+
+        var intValue = 10
+        etValue.setText("$intValue")
+
+        var strTimePicked = ReminderTime.MINUTES
+        txtMinutes.setTextColor(colorTextPrimary)
+        imgMinute.visibility = View.VISIBLE
+
+        //UI handling & listener
+        layoutMinutes.setOnClickListener {
+            strTimePicked = ReminderTime.MINUTES
+            txtMinutes.setTextColor(colorTextPrimary)
+            txtHour.setTextColor(colorTextGray)
+            txtDay.setTextColor(colorTextGray)
+            imgMinute.visibility = View.VISIBLE
+            imgHour.visibility = View.GONE
+            imgDay.visibility = View.GONE
+        }
+
+        layoutHour.setOnClickListener {
+            strTimePicked = ReminderTime.HOUR
+            txtMinutes.setTextColor(colorTextGray)
+            txtHour.setTextColor(colorTextPrimary)
+            txtDay.setTextColor(colorTextGray)
+            imgMinute.visibility = View.GONE
+            imgHour.visibility = View.VISIBLE
+            imgDay.visibility = View.GONE
+        }
+
+        layoutDay.setOnClickListener {
+            strTimePicked = ReminderTime.DAY
+            txtMinutes.setTextColor(colorTextGray)
+            txtHour.setTextColor(colorTextGray)
+            txtDay.setTextColor(colorTextPrimary)
+            imgMinute.visibility = View.GONE
+            imgHour.visibility = View.GONE
+            imgDay.visibility = View.VISIBLE
+        }
+
+        btnSet.setOnClickListener {
+            if(etValue.text.toString().isNotEmpty()){
+                etValue.error = null
+                isReminderSet = true
+                intValue = etValue.text.toString().toInt()
+                val strTime: String
+                when(strTimePicked){
+                    ReminderTime.MINUTES ->{
+                        intReminderTimeInMillis = intValue * 60 * 1000
+                        strTime = ReminderTime.MINUTES.desc
+                    }
+                    ReminderTime.HOUR ->{
+                        intReminderTimeInMillis = intValue * 60 * 60 * 1000
+                        strTime = ReminderTime.HOUR.desc
+                    }
+                    ReminderTime.DAY ->{
+                        intReminderTimeInMillis = intValue * 24 * 60 * 60 * 1000
+                        strTime = ReminderTime.DAY.desc
+                    }
+                }
+                val strAlarmTime = "$intValue $strTime"
+                createScheduleTxtReminderAlarmTime.text = strAlarmTime
+                createScheduleBtnReminderReset.visibility = View.VISIBLE
+                dialogSetReminder.dismiss()
+            }else{
+                etValue.error = "berapa menit/jam/hari sebelum"
+            }
+        }
     }
 
     private fun setRepetition(){

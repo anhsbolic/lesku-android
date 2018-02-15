@@ -9,6 +9,8 @@
     <color name="colorTextSoftGray">#848484</color>
     <color name="colorTextSelectedTab">#ffffff</color>
     <color name="colorTextUnSelectedTab">#d4d4d4</color>
+    <color name="colorTextGray">#636363</color>
+    <color name="colorTextPrimary">#6395a3</color>
 
     <color name="colorBackgroundGray">#ece7e7</color>
     <color name="colorTransparent">#00ffffff</color>
