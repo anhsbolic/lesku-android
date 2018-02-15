@@ -90,6 +90,10 @@ class CreateScheduleActivity : AppCompatActivity() {
             createScheduleCvTime.requestFocus()
             setRepetition()
         }
+
+        createScheduleBtnSave.setOnClickListener {
+            saveSchedule()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -287,6 +291,10 @@ class CreateScheduleActivity : AppCompatActivity() {
     }
 
     private fun setRepetition(){
+
+    }
+
+    private fun saveSchedule(){
 
     }
 
