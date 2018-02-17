@@ -132,6 +132,8 @@
                         android:layout_height="wrap_content"
                         android:text="Hari/Tanggal"
                         android:textSize="14sp"
+                        android:drawableStart="@drawable/ic_date"
+                        android:drawablePadding="5dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginEnd="10dp"/>
@@ -143,8 +145,6 @@
                         android:text="pilih tanggal"
                         android:textSize="14sp"
                         android:textAlignment="textEnd"
-                        android:drawableEnd="@drawable/ic_date"
-                        android:drawablePadding="10dp"
                         android:layout_toEndOf="@id/createScheduleTxtDateTitle"
                         android:layout_centerVertical="true" />
 
@@ -168,6 +168,8 @@
                         android:layout_height="wrap_content"
                         android:text="Mulai"
                         android:textSize="14sp"
+                        android:drawableStart="@drawable/ic_clock"
+                        android:drawablePadding="5dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginEnd="10dp"/>
@@ -179,8 +181,6 @@
                         android:text="pilih waktu mulai"
                         android:textSize="14sp"
                         android:textAlignment="textEnd"
-                        android:drawableEnd="@drawable/ic_clock"
-                        android:drawablePadding="10dp"
                         android:layout_toEndOf="@id/createScheduleTxtStartTimeTitle"
                         android:layout_centerVertical="true" />
 
@@ -204,6 +204,8 @@
                         android:layout_height="wrap_content"
                         android:text="Selesai"
                         android:textSize="14sp"
+                        android:drawableStart="@drawable/ic_clock"
+                        android:drawablePadding="5dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginEnd="10dp"/>
@@ -215,8 +217,6 @@
                         android:text="pilih waktu selesai"
                         android:textSize="14sp"
                         android:textAlignment="textEnd"
-                        android:drawableEnd="@drawable/ic_clock"
-                        android:drawablePadding="10dp"
                         android:layout_toEndOf="@id/createScheduleTxtEndTimeTitle"
                         android:layout_centerVertical="true" />
 
@@ -240,6 +240,8 @@
                         android:layout_height="wrap_content"
                         android:text="Alarm"
                         android:textSize="14sp"
+                        android:drawableStart="@drawable/ic_add_alarm"
+                        android:drawablePadding="5dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginEnd="10dp"/>
@@ -251,8 +253,6 @@
                         android:text="set alarm"
                         android:textSize="14sp"
                         android:textAlignment="textEnd"
-                        android:drawableEnd="@drawable/ic_add_alarm"
-                        android:drawablePadding="10dp"
                         android:layout_toEndOf="@id/createScheduleTxtReminderAlarmTitle"
                         android:layout_toStartOf="@id/createScheduleBtnReminderReset"
                         android:layout_centerVertical="true"/>
@@ -288,6 +288,8 @@
                         android:layout_height="wrap_content"
                         android:text="Pengulangan"
                         android:textSize="14sp"
+                        android:drawableStart="@drawable/ic_repeat"
+                        android:drawablePadding="5dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginEnd="10dp"/>
@@ -299,8 +301,6 @@
                         android:text="set pengulangan"
                         android:textSize="14sp"
                         android:textAlignment="textEnd"
-                        android:drawableEnd="@drawable/ic_repeat"
-                        android:drawablePadding="10dp"
                         android:layout_toEndOf="@id/createScheduleTxtRepetitionTitle"
                         android:layout_toStartOf="@id/createScheduleBtnRepetitionReset"
                         android:layout_centerVertical="true" />
