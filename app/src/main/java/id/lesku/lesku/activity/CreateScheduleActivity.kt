@@ -39,6 +39,7 @@ class CreateScheduleActivity : AppCompatActivity() {
     private var isReminderSet: Boolean = false
     private var intWeeksRepetition: Int = 0
     private var listRepetitionDays: ArrayList<String> = ArrayList()
+    private var isRepetitionSet: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,6 +109,14 @@ class CreateScheduleActivity : AppCompatActivity() {
         createScheduleRepetitionLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
             setRepetition()
+        }
+
+        createScheduleBtnRepetitionReset.setOnClickListener {
+            intWeeksRepetition = 0
+            listRepetitionDays.clear()
+            isRepetitionSet = false
+            createScheduleTxtRepetition.text = "set pengulangan"
+            createScheduleBtnRepetitionReset.visibility = View.GONE
         }
 
         createScheduleBtnSave.setOnClickListener {
@@ -558,6 +567,10 @@ class CreateScheduleActivity : AppCompatActivity() {
                         listRepetitionDays.add(DayInBahasa.SUNDAY.desc)
                     }
 
+                    isRepetitionSet = true
+
+                    //update UI
+                    createScheduleBtnRepetitionReset.visibility = View.VISIBLE
                     var days = listRepetitionDays[0]
                     if(listRepetitionDays.size > 1){
                         for(i in 1 until listRepetitionDays.size){
@@ -572,16 +585,10 @@ class CreateScheduleActivity : AppCompatActivity() {
                     Toast.makeText(this@CreateScheduleActivity, "pilih hari jadwal akang diulang",
                             Toast.LENGTH_SHORT).show()
                 }
-
-
-
             }else{
                 etWeeks.error = "akan diulang berapa minggu"
             }
         }
-
-
-
     }
 
     private fun saveSchedule(){

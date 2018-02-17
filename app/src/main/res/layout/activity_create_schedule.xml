@@ -302,7 +302,19 @@
                         android:drawableEnd="@drawable/ic_repeat"
                         android:drawablePadding="10dp"
                         android:layout_toEndOf="@id/createScheduleTxtRepetitionTitle"
+                        android:layout_toStartOf="@id/createScheduleBtnRepetitionReset"
                         android:layout_centerVertical="true" />
+
+                    <ImageView
+                        android:id="@+id/createScheduleBtnRepetitionReset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_clear_red"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        tools:ignore="ContentDescription"
+                        android:layout_marginStart="15dp"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
