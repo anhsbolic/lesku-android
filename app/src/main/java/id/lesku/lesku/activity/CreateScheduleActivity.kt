@@ -558,6 +558,15 @@ class CreateScheduleActivity : AppCompatActivity() {
                         listRepetitionDays.add(DayInBahasa.SUNDAY.desc)
                     }
 
+                    var days = listRepetitionDays[0]
+                    if(listRepetitionDays.size > 1){
+                        for(i in 1 until listRepetitionDays.size){
+                            days += ", ${listRepetitionDays[i]}"
+                        }
+                    }
+                    val strRepetition = "Diulang pada hari $days, selama $intWeeksRepetition minggu"
+                    createScheduleTxtRepetition.text = strRepetition
+
                     dialogSetRepetition.dismiss()
                 }else{
                     Toast.makeText(this@CreateScheduleActivity, "pilih hari jadwal akang diulang",
