@@ -33,6 +33,8 @@ class CreateScheduleActivity : AppCompatActivity() {
     private var startMinutePicked: Int = 0
     private var endHourPicked: Int = 0
     private var endMinutePicked: Int = 0
+    private var strTimePicked: ReminderTime = ReminderTime.MINUTES
+    private var intReminderValue: Int = 10
     private var intReminderTimeInMillis: Int = 0
     private var isReminderSet: Boolean = false
     private var intWeeksRepetition: Int = 0
@@ -335,12 +337,36 @@ class CreateScheduleActivity : AppCompatActivity() {
         val colorTextGray = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextGray)
         val colorTextPrimary = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextPrimary)
 
-        var intValue = 10
-        etValue.setText("$intValue")
+        //init view with last data
+        etValue.setText("$intReminderValue")
 
-        var strTimePicked = ReminderTime.MINUTES
-        txtMinutes.setTextColor(colorTextPrimary)
-        imgMinute.visibility = View.VISIBLE
+        when(strTimePicked){
+            ReminderTime.MINUTES ->{
+                txtMinutes.setTextColor(colorTextPrimary)
+                txtHour.setTextColor(colorTextGray)
+                txtDay.setTextColor(colorTextGray)
+                imgMinute.visibility = View.VISIBLE
+                imgHour.visibility = View.GONE
+                imgDay.visibility = View.GONE
+            }
+            ReminderTime.HOUR ->{
+                txtMinutes.setTextColor(colorTextGray)
+                txtHour.setTextColor(colorTextPrimary)
+                txtDay.setTextColor(colorTextGray)
+                imgMinute.visibility = View.GONE
+                imgHour.visibility = View.VISIBLE
+                imgDay.visibility = View.GONE
+            }
+            ReminderTime.DAY ->{
+                strTimePicked = ReminderTime.DAY
+                txtMinutes.setTextColor(colorTextGray)
+                txtHour.setTextColor(colorTextGray)
+                txtDay.setTextColor(colorTextPrimary)
+                imgMinute.visibility = View.GONE
+                imgHour.visibility = View.GONE
+                imgDay.visibility = View.VISIBLE
+            }
+        }
 
         //UI handling & listener
         layoutMinutes.setOnClickListener {
@@ -377,23 +403,23 @@ class CreateScheduleActivity : AppCompatActivity() {
             if(etValue.text.toString().isNotEmpty()){
                 etValue.error = null
                 isReminderSet = true
-                intValue = etValue.text.toString().toInt()
+                intReminderValue = etValue.text.toString().toInt()
                 val strTime: String
                 when(strTimePicked){
                     ReminderTime.MINUTES ->{
-                        intReminderTimeInMillis = intValue * 60 * 1000
+                        intReminderTimeInMillis = intReminderValue * 60 * 1000
                         strTime = ReminderTime.MINUTES.desc
                     }
                     ReminderTime.HOUR ->{
-                        intReminderTimeInMillis = intValue * 60 * 60 * 1000
+                        intReminderTimeInMillis = intReminderValue * 60 * 60 * 1000
                         strTime = ReminderTime.HOUR.desc
                     }
                     ReminderTime.DAY ->{
-                        intReminderTimeInMillis = intValue * 24 * 60 * 60 * 1000
+                        intReminderTimeInMillis = intReminderValue * 24 * 60 * 60 * 1000
                         strTime = ReminderTime.DAY.desc
                     }
                 }
-                val strAlarmTime = "$intValue $strTime"
+                val strAlarmTime = "$intReminderValue $strTime"
                 createScheduleTxtReminderAlarmTime.text = strAlarmTime
                 createScheduleBtnReminderReset.visibility = View.VISIBLE
                 dialogSetReminder.dismiss()
