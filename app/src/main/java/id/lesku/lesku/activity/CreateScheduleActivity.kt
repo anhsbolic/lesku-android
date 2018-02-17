@@ -6,6 +6,7 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -27,9 +28,11 @@ import kotlinx.android.synthetic.main.dialog_date_picker.*
 import kotlinx.android.synthetic.main.dialog_set_reminder.*
 import kotlinx.android.synthetic.main.dialog_set_repetition.*
 import kotlinx.android.synthetic.main.dialog_time_picker.*
-import kotlinx.android.synthetic.main.fragment_students.*
 import java.util.*
 import kotlin.collections.ArrayList
+import android.widget.DatePicker
+
+
 
 class CreateScheduleActivity : AppCompatActivity() {
 
@@ -67,7 +70,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         loadThenSetStudentData()
 
         datePicked = Date()
-        createScheduleTxtDate.text = MyDateFormatter.dateBahasa(datePicked)
+        createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
 
         lmRvDailyNotes = LinearLayoutManager(this@CreateScheduleActivity)
         createScheduleRvDailyNotes.layoutManager = lmRvDailyNotes
@@ -120,9 +123,10 @@ class CreateScheduleActivity : AppCompatActivity() {
             }
         }
 
-        createScheduleDateLayout.setOnClickListener {
-            createScheduleCvTime.requestFocus()
-            openDatePicker(datePicked)
+        createScheduleStartDateLayout.setOnClickListener {
+            createScheduleCvDate.requestFocus()
+            //openDatePicker(datePicked)
+            getDate(datePicked)
         }
 
         startHourPicked = MyDateFormatter.getHourFromDate(Date())
@@ -153,19 +157,6 @@ class CreateScheduleActivity : AppCompatActivity() {
             isReminderSet = false
             createScheduleTxtReminderAlarmTime.text = "set alarm"
             createScheduleBtnReminderReset.visibility = View.GONE
-        }
-
-        createScheduleRepetitionLayout.setOnClickListener {
-            createScheduleCvTime.requestFocus()
-            setRepetition()
-        }
-
-        createScheduleBtnRepetitionReset.setOnClickListener {
-            intWeeksRepetition = 0
-            listRepetitionDays.clear()
-            isRepetitionSet = false
-            createScheduleTxtRepetition.text = "set pengulangan"
-            createScheduleBtnRepetitionReset.visibility = View.GONE
         }
     }
 
@@ -275,7 +266,7 @@ class CreateScheduleActivity : AppCompatActivity() {
 
             //update UI
             datePicked = MyDateFormatter.getDate(intDay, intMonth, intYear)
-            createScheduleTxtDate.text = MyDateFormatter.dateBahasa(datePicked)
+            createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
 
             val dayPicked = MyDateFormatter.getDayBahasa(datePicked)
             for(i in 0 until dataDailyNotes.size){
@@ -284,6 +275,34 @@ class CreateScheduleActivity : AppCompatActivity() {
             setRvDailyNotesAdapterData(dataDailyNotes)
             dialogDatePicker.dismiss()
         }
+    }
+
+    private fun getDate(date: Date){
+        val builder = AlertDialog.Builder(this@CreateScheduleActivity)
+        val myDatePicker = DatePicker(this@CreateScheduleActivity)
+        val currentYear = MyDateFormatter.getYearFromDate(date)
+        val currentMonth = MyDateFormatter.getMonthFromDate(date)
+        val currentDay = MyDateFormatter.getDayOfMonthFromDate(date)
+        myDatePicker.updateDate(currentYear, currentMonth, currentDay)
+        builder.setView(myDatePicker)
+        builder.setNegativeButton("Kembali", null)
+        builder.setPositiveButton("Set Tanggal", { _ , _ ->
+            val intDay = myDatePicker.dayOfMonth
+            val intMonth = myDatePicker.month
+            val intYear = myDatePicker.year
+
+            //update UI
+            datePicked = MyDateFormatter.getDate(intDay, intMonth, intYear)
+            createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
+
+            val dayPicked = MyDateFormatter.getDayBahasa(datePicked)
+            for(i in 0 until dataDailyNotes.size){
+                dataDailyNotes[i].isChecked = dataDailyNotes[i].day!! == dayPicked
+            }
+            setRvDailyNotesAdapterData(dataDailyNotes)
+        })
+
+        builder.show()
     }
 
     @Suppress("DEPRECATION")
@@ -692,7 +711,7 @@ class CreateScheduleActivity : AppCompatActivity() {
                     isRepetitionSet = true
 
                     //update UI
-                    createScheduleBtnRepetitionReset.visibility = View.VISIBLE
+                    //createScheduleBtnRepetitionReset.visibility = View.VISIBLE
                     var days = listRepetitionDays[0]
                     if(listRepetitionDays.size > 1){
                         for(i in 1 until listRepetitionDays.size){
@@ -700,7 +719,7 @@ class CreateScheduleActivity : AppCompatActivity() {
                         }
                     }
                     val strRepetition = "Diulang pada hari $days, selama $intWeeksRepetition minggu"
-                    createScheduleTxtRepetition.text = strRepetition
+                    //createScheduleTxtRepetition.text = strRepetition
 
                     dialogSetRepetition.dismiss()
                 }else{
