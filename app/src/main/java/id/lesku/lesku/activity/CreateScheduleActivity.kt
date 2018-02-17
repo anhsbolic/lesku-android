@@ -462,6 +462,39 @@ class CreateScheduleActivity : AppCompatActivity() {
         val cbSunday: CheckBox = dialogSetRepetition.setRepetitionCbSunday
         val btnSetRepetition: Button = dialogSetRepetition.setRepetitionBtnSet
 
+        //Init last data input
+        if(intWeeksRepetition > 0){
+            etWeeks.setText(intWeeksRepetition.toString())
+        }
+
+        if(listRepetitionDays.isNotEmpty()){
+            for(i in 0 until listRepetitionDays.size){
+                when(listRepetitionDays[i]){
+                    DayInBahasa.MONDAY.desc ->{
+                        cbMonday.isChecked = true
+                    }
+                    DayInBahasa.TUESDAY.desc ->{
+                        cbTuesday.isChecked = true
+                    }
+                    DayInBahasa.WEDNESDAY.desc ->{
+                        cbWednesday.isChecked = true
+                    }
+                    DayInBahasa.THURSDAY.desc ->{
+                        cbThursday.isChecked = true
+                    }
+                    DayInBahasa.FRIDAY.desc ->{
+                        cbFriday.isChecked = true
+                    }
+                    DayInBahasa.SATURDAY.desc ->{
+                        cbSaturday.isChecked = true
+                    }
+                    DayInBahasa.SUNDAY.desc ->{
+                        cbSunday.isChecked = true
+                    }
+                }
+            }
+        }
+
         //UI handling & listener
         layoutMonday.setOnClickListener {
             cbMonday.isChecked = !cbMonday.isChecked
