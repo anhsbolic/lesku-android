@@ -46,6 +46,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_schedule)
         setTitle(R.string.create_schedule_activity_title)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.menu_clear)
 
         loadThenSetStudentData()
 
