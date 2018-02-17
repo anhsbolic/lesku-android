@@ -476,6 +476,40 @@ class CreateScheduleActivity : AppCompatActivity() {
             etWeeks.setText(intWeeksRepetition.toString())
         }
 
+        val dayPicked = MyDateFormatter.getDay(datePicked)
+        Log.d("TES", dayPicked)
+        Log.d("TES A", DayInBahasa.SATURDAY.toString())
+        when(dayPicked.toLowerCase()){
+            DayInBahasa.MONDAY.toString().toLowerCase()->{
+                cbMonday.isChecked = true
+                cbMonday.isEnabled = false
+            }
+            DayInBahasa.TUESDAY.toString().toLowerCase()->{
+                cbTuesday.isChecked = true
+                cbTuesday.isEnabled = false
+            }
+            DayInBahasa.WEDNESDAY.toString().toLowerCase()->{
+                cbWednesday.isChecked = true
+                cbWednesday.isEnabled = false
+            }
+            DayInBahasa.THURSDAY.toString().toLowerCase()->{
+                cbThursday.isChecked = true
+                cbThursday.isEnabled = false
+            }
+            DayInBahasa.FRIDAY.toString().toLowerCase()->{
+                cbFriday.isChecked = true
+                cbFriday.isEnabled = false
+            }
+            DayInBahasa.SATURDAY.toString().toLowerCase()->{
+                cbSaturday.isChecked = true
+                cbSaturday.isEnabled = false
+            }
+            DayInBahasa.SUNDAY.toString().toLowerCase()->{
+                cbSunday.isChecked = true
+                cbSunday.isEnabled = false
+            }
+        }
+
         if(listRepetitionDays.isNotEmpty()){
             for(i in 0 until listRepetitionDays.size){
                 when(listRepetitionDays[i]){
@@ -506,25 +540,39 @@ class CreateScheduleActivity : AppCompatActivity() {
 
         //UI handling & listener
         layoutMonday.setOnClickListener {
-            cbMonday.isChecked = !cbMonday.isChecked
+            if(cbMonday.isEnabled){
+                cbMonday.isChecked = !cbMonday.isChecked
+            }
         }
         layoutTuesday.setOnClickListener {
-            cbTuesday.isChecked = !cbTuesday.isChecked
+            if(cbTuesday.isEnabled){
+                cbTuesday.isChecked = !cbTuesday.isChecked
+            }
         }
         layoutWednesday.setOnClickListener {
-            cbWednesday.isChecked = !cbWednesday.isChecked
+            if(cbWednesday.isEnabled){
+                cbWednesday.isChecked = !cbWednesday.isChecked
+            }
         }
         layoutThursday.setOnClickListener {
-            cbThursday.isChecked = !cbThursday.isChecked
+            if(cbThursday.isEnabled){
+                cbThursday.isChecked = !cbThursday.isChecked
+            }
         }
         layoutFriday.setOnClickListener {
-            cbFriday.isChecked = !cbFriday.isChecked
+            if(cbFriday.isEnabled){
+                cbFriday.isChecked = !cbFriday.isChecked
+            }
         }
         layoutSaturday.setOnClickListener {
-            cbSaturday.isChecked = !cbSaturday.isChecked
+            if(cbSaturday.isEnabled){
+                cbSaturday.isChecked = !cbSaturday.isChecked
+            }
         }
         layoutSunday.setOnClickListener {
-            cbSunday.isChecked = !cbSunday.isChecked
+            if(cbSunday.isEnabled){
+                cbSunday.isChecked = !cbSunday.isChecked
+            }
         }
 
         btnSetRepetition.setOnClickListener {

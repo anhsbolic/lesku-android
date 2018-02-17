@@ -93,6 +93,12 @@ class MyDateFormatter {
             return "$strDayName, $strDayNumber $strMonthName $strYear"
         }
 
+        fun getDay(date: Date): String {
+            val nameDayFormat = SimpleDateFormat("EEEE", Locale.US)
+
+            return nameDayFormat.format(date)
+        }
+
         fun setAnotherDateFrom(day: Int, date: Date): Date {
             val calendar = Calendar.getInstance()
             calendar.time = date
