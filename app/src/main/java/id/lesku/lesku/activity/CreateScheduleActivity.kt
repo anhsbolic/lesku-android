@@ -13,6 +13,7 @@ import android.widget.*
 import id.lesku.lesku.R
 import id.lesku.lesku.helper.SqliteDbHelper
 import id.lesku.lesku.model.Student
+import id.lesku.lesku.utils.DayInBahasa
 import id.lesku.lesku.utils.MyDateFormatter
 import id.lesku.lesku.utils.ReminderTime
 import kotlinx.android.synthetic.main.activity_create_schedule.*
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.dialog_set_reminder.*
 import kotlinx.android.synthetic.main.dialog_set_repetition.*
 import kotlinx.android.synthetic.main.dialog_time_picker.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CreateScheduleActivity : AppCompatActivity() {
 
@@ -33,6 +35,8 @@ class CreateScheduleActivity : AppCompatActivity() {
     private var endMinutePicked: Int = 0
     private var intReminderTimeInMillis: Int = 0
     private var isReminderSet: Boolean = false
+    private var intWeeksRepetition: Int = 0
+    private var listRepetitionDays: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -416,6 +420,100 @@ class CreateScheduleActivity : AppCompatActivity() {
 
         //get layout component
         val etWeeks: EditText = dialogSetRepetition.setRepetitionEtWeeks
+        val layoutMonday: RelativeLayout = dialogSetRepetition.setRepetitionMondayLayout
+        val layoutTuesday: RelativeLayout = dialogSetRepetition.setRepetitionTuesdayLayout
+        val layoutWednesday: RelativeLayout = dialogSetRepetition.setRepetitionWednesdayLayout
+        val layoutThursday: RelativeLayout = dialogSetRepetition.setRepetitionThursdayLayout
+        val layoutFriday: RelativeLayout = dialogSetRepetition.setRepetitionFridayLayout
+        val layoutSaturday: RelativeLayout = dialogSetRepetition.setRepetitionSaturdayLayout
+        val layoutSunday: RelativeLayout = dialogSetRepetition.setRepetitionSundayLayout
+        val cbMonday: CheckBox = dialogSetRepetition.setRepetitionCbMonday
+        val cbTuesday: CheckBox = dialogSetRepetition.setRepetitionCbTuesday
+        val cbWednesday: CheckBox = dialogSetRepetition.setRepetitionCbWednesday
+        val cbThursday: CheckBox = dialogSetRepetition.setRepetitionCbThursday
+        val cbFriday: CheckBox = dialogSetRepetition.setRepetitionCbFriday
+        val cbSaturday: CheckBox = dialogSetRepetition.setRepetitionCbSaturday
+        val cbSunday: CheckBox = dialogSetRepetition.setRepetitionCbSunday
+        val btnSetRepetition: Button = dialogSetRepetition.setRepetitionBtnSet
+
+        //UI handling & listener
+        layoutMonday.setOnClickListener {
+            cbMonday.isChecked = !cbMonday.isChecked
+        }
+        layoutTuesday.setOnClickListener {
+            cbTuesday.isChecked = !cbTuesday.isChecked
+        }
+        layoutWednesday.setOnClickListener {
+            cbWednesday.isChecked = !cbWednesday.isChecked
+        }
+        layoutThursday.setOnClickListener {
+            cbThursday.isChecked = !cbThursday.isChecked
+        }
+        layoutFriday.setOnClickListener {
+            cbFriday.isChecked = !cbFriday.isChecked
+        }
+        layoutSaturday.setOnClickListener {
+            cbSaturday.isChecked = !cbSaturday.isChecked
+        }
+        layoutSunday.setOnClickListener {
+            cbSunday.isChecked = !cbSunday.isChecked
+        }
+
+        btnSetRepetition.setOnClickListener {
+            if(etWeeks.text.toString().isNotEmpty()){
+                etWeeks.error = null
+
+                var isDayChecked = true
+                if(!cbMonday.isChecked && !cbTuesday.isChecked && !cbWednesday.isChecked
+                        && !cbThursday.isChecked && !cbFriday.isChecked && !cbSaturday.isChecked
+                        && !cbSunday.isChecked){
+                    isDayChecked = false
+                }
+
+                if(isDayChecked){
+                    intWeeksRepetition = etWeeks.text.toString().toInt()
+
+                    if(listRepetitionDays.isNotEmpty()){
+                        listRepetitionDays.clear()
+                    }
+
+                    if(cbMonday.isChecked){
+                        listRepetitionDays.add(DayInBahasa.MONDAY.desc)
+                    }
+                    if(cbTuesday.isChecked){
+                        listRepetitionDays.add(DayInBahasa.TUESDAY.desc)
+                    }
+                    if(cbWednesday.isChecked){
+                        listRepetitionDays.add(DayInBahasa.WEDNESDAY.desc)
+                    }
+                    if(cbThursday.isChecked){
+                        listRepetitionDays.add(DayInBahasa.THURSDAY.desc)
+                    }
+                    if(cbFriday.isChecked){
+                        listRepetitionDays.add(DayInBahasa.FRIDAY.desc)
+                    }
+                    if(cbSaturday.isChecked){
+                        listRepetitionDays.add(DayInBahasa.SATURDAY.desc)
+                    }
+                    if(cbSunday.isChecked){
+                        listRepetitionDays.add(DayInBahasa.SUNDAY.desc)
+                    }
+
+                    dialogSetRepetition.dismiss()
+                }else{
+                    Toast.makeText(this@CreateScheduleActivity, "pilih hari jadwal akang diulang",
+                            Toast.LENGTH_SHORT).show()
+                }
+
+
+
+            }else{
+                etWeeks.error = "akan diulang berapa minggu"
+            }
+        }
+
+
+
     }
 
     private fun saveSchedule(){
