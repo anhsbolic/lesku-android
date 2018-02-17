@@ -93,6 +93,22 @@ class MyDateFormatter {
             return "$strDayName, $strDayNumber $strMonthName $strYear"
         }
 
+        fun getDayBahasa(date: Date): String {
+            val nameDayFormat = SimpleDateFormat("EEEE", Locale.US)
+            val strDay = nameDayFormat.format(date)
+
+            return when (strDay) {
+                SUNDAY -> SUNDAY_BAHASA
+                MONDAY -> MONDAY_BAHASA
+                TUESDAY -> TUESDAY_BAHASA
+                WEDNESDAY -> WEDNESDAY_BAHASA
+                THURSDAY -> THURSDAY_BAHASA
+                FRIDAY -> FRIDAY_BAHASA
+                SATURDAY -> SATURDAY_BAHASA
+                else -> ""
+            }
+        }
+
         fun getDay(date: Date): String {
             val nameDayFormat = SimpleDateFormat("EEEE", Locale.US)
 

@@ -6,12 +6,18 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import id.lesku.lesku.R
+import id.lesku.lesku.adapter.CreateScheduleDailyNotesAdapter
 import id.lesku.lesku.helper.SqliteDbHelper
+import id.lesku.lesku.model.ScheduleDailyNotes
 import id.lesku.lesku.model.Student
 import id.lesku.lesku.utils.DayInBahasa
 import id.lesku.lesku.utils.MyDateFormatter
@@ -21,6 +27,7 @@ import kotlinx.android.synthetic.main.dialog_date_picker.*
 import kotlinx.android.synthetic.main.dialog_set_reminder.*
 import kotlinx.android.synthetic.main.dialog_set_repetition.*
 import kotlinx.android.synthetic.main.dialog_time_picker.*
+import kotlinx.android.synthetic.main.fragment_students.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -41,6 +48,13 @@ class CreateScheduleActivity : AppCompatActivity() {
     private var listRepetitionDays: ArrayList<String> = ArrayList()
     private var isRepetitionSet: Boolean = false
 
+    private var dataDailyNotes: ArrayList<ScheduleDailyNotes> = ArrayList()
+    private var dataDailyNotesPicked: ArrayList<ScheduleDailyNotes> = ArrayList()
+    private lateinit var adapterRvDailyNotes: RecyclerView.Adapter<*>
+    private lateinit var lmRvDailyNotes: RecyclerView.LayoutManager
+    private lateinit var animator: DefaultItemAnimator
+    private lateinit var dividerItemDecoration: DividerItemDecoration
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_schedule)
@@ -49,8 +63,44 @@ class CreateScheduleActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.menu_clear)
 
+        //Init Data
         loadThenSetStudentData()
 
+        datePicked = Date()
+        createScheduleTxtDate.text = MyDateFormatter.dateBahasa(datePicked)
+
+        lmRvDailyNotes = LinearLayoutManager(this@CreateScheduleActivity)
+        createScheduleRvDailyNotes.layoutManager = lmRvDailyNotes
+        animator = DefaultItemAnimator()
+        createScheduleRvDailyNotes.itemAnimator = animator
+        dividerItemDecoration = DividerItemDecoration(this@CreateScheduleActivity,
+                DividerItemDecoration.VERTICAL)
+        createScheduleRvDailyNotes.addItemDecoration(dividerItemDecoration)
+        adapterRvDailyNotes = CreateScheduleDailyNotesAdapter(dataDailyNotesPicked)
+        createScheduleRvDailyNotes.adapter = adapterRvDailyNotes
+
+        val scheduleMonday = ScheduleDailyNotes(DayInBahasa.MONDAY.desc, false, null, null)
+        val scheduleTuesday = ScheduleDailyNotes(DayInBahasa.TUESDAY.desc, false, null, null)
+        val scheduleWednesday = ScheduleDailyNotes(DayInBahasa.WEDNESDAY.desc, false, null, null)
+        val scheduleThursday = ScheduleDailyNotes(DayInBahasa.THURSDAY.desc, false, null, null)
+        val scheduleFriday = ScheduleDailyNotes(DayInBahasa.FRIDAY.desc, false, null, null)
+        val scheduleSaturday = ScheduleDailyNotes(DayInBahasa.SATURDAY.desc, false, null, null)
+        val scheduleSunday = ScheduleDailyNotes(DayInBahasa.SUNDAY.desc, false, null, null)
+        dataDailyNotes.add(scheduleMonday)
+        dataDailyNotes.add(scheduleTuesday)
+        dataDailyNotes.add(scheduleWednesday)
+        dataDailyNotes.add(scheduleThursday)
+        dataDailyNotes.add(scheduleFriday)
+        dataDailyNotes.add(scheduleSaturday)
+        dataDailyNotes.add(scheduleSunday)
+
+        val dayPicked = MyDateFormatter.getDayBahasa(datePicked)
+        for(i in 0 until dataDailyNotes.size){
+            dataDailyNotes[i].isChecked = dataDailyNotes[i].day!! == dayPicked
+        }
+        setRvDailyNotesAdapterData(dataDailyNotes)
+
+        //UI Handling & listener
         createScheduleSearchAutoComplete.setOnFocusChangeListener { _, hasFocus ->
             if(!hasFocus){
                 if(createScheduleSearchAutoComplete.text.toString().isNotEmpty()){
@@ -69,9 +119,6 @@ class CreateScheduleActivity : AppCompatActivity() {
                 }
             }
         }
-
-        datePicked = Date()
-        createScheduleTxtDate.text = MyDateFormatter.dateBahasa(datePicked)
 
         createScheduleDateLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
@@ -120,10 +167,25 @@ class CreateScheduleActivity : AppCompatActivity() {
             createScheduleTxtRepetition.text = "set pengulangan"
             createScheduleBtnRepetitionReset.visibility = View.GONE
         }
+    }
 
-        createScheduleBtnSave.setOnClickListener {
-            saveSchedule()
+    private fun setRvDailyNotesAdapterData(dataDailyNotes: ArrayList<ScheduleDailyNotes>) {
+        if(dataDailyNotesPicked.isNotEmpty()){
+            dataDailyNotesPicked.clear()
         }
+
+        for(i in 0 until dataDailyNotes.size){
+            if(dataDailyNotes[i].isChecked!!){
+                dataDailyNotesPicked.add(dataDailyNotes[i])
+            }
+        }
+
+        adapterRvDailyNotes.notifyDataSetChanged()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.activity_create_schedulle_menu, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -131,6 +193,10 @@ class CreateScheduleActivity : AppCompatActivity() {
             android.R.id.home ->{
                 //showKeyboard(false)
                 onBackPressed()
+                true
+            }
+            R.id.create_schedule_menu_save ->{
+                saveSchedule()
                 true
             }
             else -> {
@@ -210,6 +276,12 @@ class CreateScheduleActivity : AppCompatActivity() {
             //update UI
             datePicked = MyDateFormatter.getDate(intDay, intMonth, intYear)
             createScheduleTxtDate.text = MyDateFormatter.dateBahasa(datePicked)
+
+            val dayPicked = MyDateFormatter.getDayBahasa(datePicked)
+            for(i in 0 until dataDailyNotes.size){
+                dataDailyNotes[i].isChecked = dataDailyNotes[i].day!! == dayPicked
+            }
+            setRvDailyNotesAdapterData(dataDailyNotes)
             dialogDatePicker.dismiss()
         }
     }
@@ -642,7 +714,7 @@ class CreateScheduleActivity : AppCompatActivity() {
     }
 
     private fun saveSchedule(){
-
+        Log.d("TES","SAVE")
     }
 
     private fun showKeyboard(showKeyboard: Boolean){
