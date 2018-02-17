@@ -132,6 +132,43 @@ class CreateScheduleActivity : AppCompatActivity() {
             getDate(datePicked)
         }
 
+        createScheduleMondayLayout.setOnClickListener {
+            if(createScheduleCbMonday.isEnabled){
+                createScheduleCbMonday.isChecked = !createScheduleCbMonday.isChecked
+            }
+        }
+        createScheduleTuesdayLayout.setOnClickListener {
+            if(createScheduleCbTuesday.isEnabled){
+                createScheduleCbTuesday.isChecked = !createScheduleCbTuesday.isChecked
+            }
+        }
+        createScheduleWednesdayLayout.setOnClickListener {
+            if(createScheduleCbWednesday.isEnabled){
+                createScheduleCbWednesday.isChecked = !createScheduleCbWednesday.isChecked
+            }
+        }
+        createScheduleThursdayLayout.setOnClickListener {
+            if(createScheduleCbThursday.isEnabled){
+                createScheduleCbThursday.isChecked = !createScheduleCbThursday.isChecked
+            }
+        }
+        createScheduleFridayLayout.setOnClickListener {
+            if(createScheduleCbFriday.isEnabled){
+                createScheduleCbFriday.isChecked = !createScheduleCbFriday.isChecked
+            }
+        }
+        createScheduleSaturdayLayout.setOnClickListener {
+            if(createScheduleCbSaturday.isEnabled){
+                createScheduleCbSaturday.isChecked = !createScheduleCbSaturday.isChecked
+            }
+        }
+        createScheduleSundayLayout.setOnClickListener {
+            if(createScheduleCbSunday.isEnabled){
+                createScheduleCbSunday.isChecked = !createScheduleCbSunday.isChecked
+            }
+        }
+
+
         startHourPicked = MyDateFormatter.getHourFromDate(Date())
         startMinutePicked = MyDateFormatter.getMinuteFromDate(Date())
         createScheduleTxtStartTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
