@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set alarm di "
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -31,7 +31,7 @@
             android:id="@+id/setAlarmEtValue"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:inputType="number"
             android:textAlignment="center"
             android:layout_toEndOf="@id/setAlarmTxtTitle"
@@ -50,7 +50,7 @@
     <RelativeLayout
         android:id="@+id/setAlarmInMinutesLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:clickable="true"
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="menit sebelum"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textColor="@color/colorTextGray"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
@@ -88,7 +88,7 @@
     <RelativeLayout
         android:id="@+id/setAlarmInHourLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:clickable="true"
@@ -99,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="jam sebelum"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textColor="@color/colorTextGray"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
@@ -126,7 +126,7 @@
     <RelativeLayout
         android:id="@+id/setAlarmInDayLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:clickable="true"
@@ -137,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="hari sebelum"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textColor="@color/colorTextGray"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
@@ -159,18 +159,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorLineSeparator"/>
+        android:background="@color/colorLineSeparator"
+        android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:id="@+id/setAlarmBtnSet"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Set Alarm"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:textColor="@color/colorTextPrimaryDark"
-        android:textAlignment="textEnd"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
 
 </LinearLayout>

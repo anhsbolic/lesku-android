@@ -24,14 +24,11 @@ import id.lesku.lesku.utils.DayInBahasa
 import id.lesku.lesku.utils.MyDateFormatter
 import id.lesku.lesku.utils.ReminderTime
 import kotlinx.android.synthetic.main.activity_create_schedule.*
-import kotlinx.android.synthetic.main.dialog_date_picker.*
-import kotlinx.android.synthetic.main.dialog_set_reminder.*
 import kotlinx.android.synthetic.main.dialog_set_repetition.*
-import kotlinx.android.synthetic.main.dialog_time_picker.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.DatePicker
-
+import kotlinx.android.synthetic.main.dialog_set_reminder.view.*
 
 
 class CreateScheduleActivity : AppCompatActivity() {
@@ -58,6 +55,9 @@ class CreateScheduleActivity : AppCompatActivity() {
     private lateinit var animator: DefaultItemAnimator
     private lateinit var dividerItemDecoration: DividerItemDecoration
 
+    private var colorTextGray: Int = 0
+    private var colorTextPrimary: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_schedule)
@@ -65,6 +65,10 @@ class CreateScheduleActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.menu_clear)
+
+        //init value
+        colorTextGray = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextGray)
+        colorTextPrimary = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextPrimary)
 
         //Init Data
         loadThenSetStudentData()
@@ -125,7 +129,6 @@ class CreateScheduleActivity : AppCompatActivity() {
 
         createScheduleStartDateLayout.setOnClickListener {
             createScheduleCvDate.requestFocus()
-            //openDatePicker(datePicked)
             getDate(datePicked)
         }
 
@@ -135,7 +138,7 @@ class CreateScheduleActivity : AppCompatActivity() {
 
         createScheduleStartTimeLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
-            openTimePicker("START_TIME", startHourPicked, startMinutePicked)
+            getTime("START_TIME", startHourPicked, startMinutePicked)
         }
 
         endHourPicked = MyDateFormatter.getHourFromDate(Date())
@@ -144,12 +147,12 @@ class CreateScheduleActivity : AppCompatActivity() {
 
         createScheduleEndTimeLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
-            openTimePicker("END_TIME", endHourPicked, endMinutePicked)
+            getTime("END_TIME", endHourPicked, endMinutePicked)
         }
 
         createScheduleReminderAlarmLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
-            setReminderAlarm()
+            setAlarm()
         }
 
         createScheduleBtnReminderReset.setOnClickListener {
@@ -231,52 +234,6 @@ class CreateScheduleActivity : AppCompatActivity() {
         return isRegistered
     }
 
-    private fun openDatePicker(date: Date){
-        //set dialog datePicker
-        val dialogDatePicker = Dialog(this@CreateScheduleActivity)
-        dialogDatePicker.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogDatePicker.setCanceledOnTouchOutside(true)
-        dialogDatePicker.setCancelable(true)
-        dialogDatePicker.setContentView(R.layout.dialog_date_picker)
-        val window = dialogDatePicker.window
-        val param = window.attributes
-        param.gravity = Gravity.CENTER
-        param.width = WindowManager.LayoutParams.WRAP_CONTENT
-        window.attributes = param
-        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-
-        //show dialog datepicker
-        dialogDatePicker.show()
-
-        //get layout component
-        val myDatePicker: DatePicker = dialogDatePicker.datePicker
-        val btnSetDate: Button = dialogDatePicker.datePickerBtnSetDate
-
-        //set DatePicker date with pickedDate
-        val currentYear = MyDateFormatter.getYearFromDate(date)
-        val currentMonth = MyDateFormatter.getMonthFromDate(date)
-        val currentDay = MyDateFormatter.getDayOfMonthFromDate(date)
-        myDatePicker.updateDate(currentYear, currentMonth, currentDay)
-
-        //dialog handling
-        btnSetDate.setOnClickListener {
-            val intDay = myDatePicker.dayOfMonth
-            val intMonth = myDatePicker.month
-            val intYear = myDatePicker.year
-
-            //update UI
-            datePicked = MyDateFormatter.getDate(intDay, intMonth, intYear)
-            createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
-
-            val dayPicked = MyDateFormatter.getDayBahasa(datePicked)
-            for(i in 0 until dataDailyNotes.size){
-                dataDailyNotes[i].isChecked = dataDailyNotes[i].day!! == dayPicked
-            }
-            setRvDailyNotesAdapterData(dataDailyNotes)
-            dialogDatePicker.dismiss()
-        }
-    }
-
     private fun getDate(date: Date){
         val builder = AlertDialog.Builder(this@CreateScheduleActivity)
         val myDatePicker = DatePicker(this@CreateScheduleActivity)
@@ -285,7 +242,6 @@ class CreateScheduleActivity : AppCompatActivity() {
         val currentDay = MyDateFormatter.getDayOfMonthFromDate(date)
         myDatePicker.updateDate(currentYear, currentMonth, currentDay)
         builder.setView(myDatePicker)
-        builder.setNegativeButton("Kembali", null)
         builder.setPositiveButton("Set Tanggal", { _ , _ ->
             val intDay = myDatePicker.dayOfMonth
             val intMonth = myDatePicker.month
@@ -306,31 +262,12 @@ class CreateScheduleActivity : AppCompatActivity() {
     }
 
     @Suppress("DEPRECATION")
-    private fun openTimePicker(whatTime: String ,hour: Int, minute: Int) {
-        //set dialog datePicker
-        val dialogTimePicker = Dialog(this@CreateScheduleActivity)
-        dialogTimePicker.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogTimePicker.setCanceledOnTouchOutside(true)
-        dialogTimePicker.setCancelable(true)
-        dialogTimePicker.setContentView(R.layout.dialog_time_picker)
-        val window = dialogTimePicker.window
-        val param = window.attributes
-        param.gravity = Gravity.CENTER
-        param.width = WindowManager.LayoutParams.WRAP_CONTENT
-        window.attributes = param
-        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-
-        //show dialog datepicker
-        dialogTimePicker.show()
-
-        //get layout component
-        val myTimePicker: TimePicker = dialogTimePicker.timePicker
-        val btnSetTime: Button = dialogTimePicker.timePickerBtnSetTime
-
-        //set timePicker with 24 hours format
-        myTimePicker.setIs24HourView(true)
+    private fun getTime(whatTime: String, hour: Int, minute: Int){
+        val builder = AlertDialog.Builder(this@CreateScheduleActivity)
+        val myTimePicker = TimePicker(this@CreateScheduleActivity)
 
         //set TimePicker time with pickedTime
+        myTimePicker.setIs24HourView(true)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             myTimePicker.hour = hour
             myTimePicker.minute = minute
@@ -338,9 +275,8 @@ class CreateScheduleActivity : AppCompatActivity() {
             myTimePicker.currentHour = hour
             myTimePicker.currentMinute = minute
         }
-
-        //dialog handling
-        btnSetTime.setOnClickListener {
+        builder.setView(myTimePicker)
+        builder.setPositiveButton("Set Waktu", { _ , _ ->
             val hourPicked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 myTimePicker.hour
             } else {
@@ -361,10 +297,8 @@ class CreateScheduleActivity : AppCompatActivity() {
                     if(startHourPicked <= endHourPicked ){
                         if(startMinutePicked <= endMinutePicked ){
                             createScheduleTxtStartTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
-                            dialogTimePicker.dismiss()
                         }else{
                             createScheduleTxtStartTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
-                            dialogTimePicker.dismiss()
                             val endTime = MyDateFormatter.getTime(endHourPicked,endMinutePicked)
                             val toastMsg = "Pilih kurang dari pukul $endTime"
                             Toast.makeText(this@CreateScheduleActivity,toastMsg,
@@ -372,7 +306,6 @@ class CreateScheduleActivity : AppCompatActivity() {
                         }
                     }else{
                         createScheduleTxtStartTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
-                        dialogTimePicker.dismiss()
                         val startTime = MyDateFormatter.getTime(startHourPicked,startMinutePicked)
                         val toastMsg = "Pilih lebih dari pukul $startTime"
                         Toast.makeText(this@CreateScheduleActivity,toastMsg,
@@ -385,10 +318,8 @@ class CreateScheduleActivity : AppCompatActivity() {
                     if(endHourPicked >= startHourPicked){
                         if(endMinutePicked >= startMinutePicked){
                             createScheduleTxtEndTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
-                            dialogTimePicker.dismiss()
                         }else{
                             createScheduleTxtEndTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
-                            dialogTimePicker.dismiss()
                             val startTime = MyDateFormatter.getTime(startHourPicked,startMinutePicked)
                             val toastMsg = "Pilih lebih dari pukul $startTime"
                             Toast.makeText(this@CreateScheduleActivity,toastMsg,
@@ -396,7 +327,6 @@ class CreateScheduleActivity : AppCompatActivity() {
                         }
                     }else{
                         createScheduleTxtEndTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
-                        dialogTimePicker.dismiss()
                         val startTime = MyDateFormatter.getTime(startHourPicked,startMinutePicked)
                         val toastMsg = "Pilih lebih dari pukul $startTime"
                         Toast.makeText(this@CreateScheduleActivity,toastMsg,
@@ -404,40 +334,27 @@ class CreateScheduleActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+        })
+
+        builder.show()
     }
 
-    private fun setReminderAlarm(){
-        //set dialog datePicker
-        val dialogSetReminder = Dialog(this@CreateScheduleActivity)
-        dialogSetReminder.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogSetReminder.setCanceledOnTouchOutside(true)
-        dialogSetReminder.setCancelable(true)
-        dialogSetReminder.setContentView(R.layout.dialog_set_reminder)
-        val window = dialogSetReminder.window
-        val param = window.attributes
-        param.gravity = Gravity.CENTER
-        param.width = WindowManager.LayoutParams.MATCH_PARENT
-        window.attributes = param
-        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        dialogSetReminder.show()
+    private fun setAlarm(){
+        val builder = AlertDialog.Builder(this@CreateScheduleActivity)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_set_reminder, null)
+        builder.setView(dialogView)
 
-        //get layout component
-        val etValue: EditText = dialogSetReminder.setAlarmEtValue
-        val layoutMinutes: RelativeLayout = dialogSetReminder.setAlarmInMinutesLayout
-        val txtMinutes: TextView = dialogSetReminder.setAlarmInMinutesTitle
-        val imgMinute: ImageView = dialogSetReminder.setAlarmImgInMinutes
-        val layoutHour: RelativeLayout = dialogSetReminder.setAlarmInHourLayout
-        val txtHour: TextView = dialogSetReminder.setAlarmInHourTitle
-        val imgHour: ImageView = dialogSetReminder.setAlarmImgInHour
-        val layoutDay: RelativeLayout = dialogSetReminder.setAlarmInDayLayout
-        val txtDay: TextView = dialogSetReminder.setAlarmInDayTitle
-        val imgDay: ImageView = dialogSetReminder.setAlarmImgInDay
-        val btnSet: Button = dialogSetReminder.setAlarmBtnSet
-
-        //init value
-        val colorTextGray = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextGray)
-        val colorTextPrimary = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextPrimary)
+        val etValue: EditText = dialogView.setAlarmEtValue
+        val layoutMinutes: RelativeLayout = dialogView.setAlarmInMinutesLayout
+        val txtMinutes: TextView = dialogView.setAlarmInMinutesTitle
+        val imgMinute: ImageView = dialogView.setAlarmImgInMinutes
+        val layoutHour: RelativeLayout = dialogView.setAlarmInHourLayout
+        val txtHour: TextView = dialogView.setAlarmInHourTitle
+        val imgHour: ImageView = dialogView.setAlarmImgInHour
+        val layoutDay: RelativeLayout = dialogView.setAlarmInDayLayout
+        val txtDay: TextView = dialogView.setAlarmInDayTitle
+        val imgDay: ImageView = dialogView.setAlarmImgInDay
 
         //init view with last data
         etValue.setText("$intReminderValue")
@@ -500,8 +417,7 @@ class CreateScheduleActivity : AppCompatActivity() {
             imgHour.visibility = View.GONE
             imgDay.visibility = View.VISIBLE
         }
-
-        btnSet.setOnClickListener {
+        builder.setPositiveButton("Set alarm", { _ , _ ->
             if(etValue.text.toString().isNotEmpty()){
                 etValue.error = null
                 isReminderSet = true
@@ -524,11 +440,12 @@ class CreateScheduleActivity : AppCompatActivity() {
                 val strAlarmTime = "$intReminderValue $strTime"
                 createScheduleTxtReminderAlarmTime.text = strAlarmTime
                 createScheduleBtnReminderReset.visibility = View.VISIBLE
-                dialogSetReminder.dismiss()
             }else{
                 etValue.error = "berapa menit/jam/hari sebelum"
             }
-        }
+        })
+
+        builder.show()
     }
 
     private fun setRepetition(){
