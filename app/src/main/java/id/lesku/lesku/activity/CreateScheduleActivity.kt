@@ -1,5 +1,6 @@
 package id.lesku.lesku.activity
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Build
@@ -7,16 +8,11 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import id.lesku.lesku.R
-import id.lesku.lesku.adapter.CreateScheduleDailyNotesAdapter
 import id.lesku.lesku.helper.SqliteDbHelper
 import id.lesku.lesku.model.ScheduleDailyNotes
 import id.lesku.lesku.model.Student
@@ -28,6 +24,7 @@ import kotlinx.android.synthetic.main.dialog_set_repetition.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.DatePicker
+import kotlinx.android.synthetic.main.dialog_schedule_notes.view.*
 import kotlinx.android.synthetic.main.dialog_set_reminder.view.*
 
 
@@ -50,10 +47,6 @@ class CreateScheduleActivity : AppCompatActivity() {
 
     private var dataDailyNotes: ArrayList<ScheduleDailyNotes> = ArrayList()
     private var dataDailyNotesPicked: ArrayList<ScheduleDailyNotes> = ArrayList()
-    private lateinit var adapterRvDailyNotes: RecyclerView.Adapter<*>
-    private lateinit var lmRvDailyNotes: RecyclerView.LayoutManager
-    private lateinit var animator: DefaultItemAnimator
-    private lateinit var dividerItemDecoration: DividerItemDecoration
 
     private var colorTextGray: Int = 0
     private var colorTextPrimary: Int = 0
@@ -75,16 +68,6 @@ class CreateScheduleActivity : AppCompatActivity() {
 
         datePicked = Date()
         createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
-
-        lmRvDailyNotes = LinearLayoutManager(this@CreateScheduleActivity)
-        createScheduleRvDailyNotes.layoutManager = lmRvDailyNotes
-        animator = DefaultItemAnimator()
-        createScheduleRvDailyNotes.itemAnimator = animator
-        dividerItemDecoration = DividerItemDecoration(this@CreateScheduleActivity,
-                DividerItemDecoration.VERTICAL)
-        createScheduleRvDailyNotes.addItemDecoration(dividerItemDecoration)
-        adapterRvDailyNotes = CreateScheduleDailyNotesAdapter(dataDailyNotesPicked)
-        createScheduleRvDailyNotes.adapter = adapterRvDailyNotes
 
         val scheduleMonday = ScheduleDailyNotes(DayInBahasa.MONDAY.desc, false, null, null)
         val scheduleTuesday = ScheduleDailyNotes(DayInBahasa.TUESDAY.desc, false, null, null)
@@ -127,47 +110,89 @@ class CreateScheduleActivity : AppCompatActivity() {
             }
         }
 
-        createScheduleStartDateLayout.setOnClickListener {
-            createScheduleCvDate.requestFocus()
-            getDate(datePicked)
-        }
-
-        createScheduleMondayLayout.setOnClickListener {
-            if(createScheduleCbMonday.isEnabled){
-                createScheduleCbMonday.isChecked = !createScheduleCbMonday.isChecked
-            }
-        }
-        createScheduleTuesdayLayout.setOnClickListener {
-            if(createScheduleCbTuesday.isEnabled){
-                createScheduleCbTuesday.isChecked = !createScheduleCbTuesday.isChecked
-            }
-        }
-        createScheduleWednesdayLayout.setOnClickListener {
-            if(createScheduleCbWednesday.isEnabled){
-                createScheduleCbWednesday.isChecked = !createScheduleCbWednesday.isChecked
-            }
-        }
-        createScheduleThursdayLayout.setOnClickListener {
-            if(createScheduleCbThursday.isEnabled){
-                createScheduleCbThursday.isChecked = !createScheduleCbThursday.isChecked
-            }
-        }
-        createScheduleFridayLayout.setOnClickListener {
-            if(createScheduleCbFriday.isEnabled){
-                createScheduleCbFriday.isChecked = !createScheduleCbFriday.isChecked
-            }
-        }
-        createScheduleSaturdayLayout.setOnClickListener {
-            if(createScheduleCbSaturday.isEnabled){
-                createScheduleCbSaturday.isChecked = !createScheduleCbSaturday.isChecked
-            }
-        }
-        createScheduleSundayLayout.setOnClickListener {
-            if(createScheduleCbSunday.isEnabled){
-                createScheduleCbSunday.isChecked = !createScheduleCbSunday.isChecked
+        createScheduleCbMonday.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                createScheduleTxtAddNotesMonday.visibility = View.VISIBLE
+            }else{
+                createScheduleTxtAddNotesMonday.visibility = View.GONE
             }
         }
 
+        createScheduleTxtAddNotesMonday.setOnClickListener {
+            addNotes(DayInBahasa.MONDAY.desc)
+        }
+
+        createScheduleCbTuesday.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                createScheduleTxtAddNotesTuesday.visibility = View.VISIBLE
+            }else{
+                createScheduleTxtAddNotesTuesday.visibility = View.GONE
+            }
+        }
+
+        createScheduleTxtAddNotesTuesday.setOnClickListener {
+            addNotes(DayInBahasa.TUESDAY.desc)
+        }
+
+        createScheduleCbWednesday.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                createScheduleTxtAddNotesWednesday.visibility = View.VISIBLE
+            }else{
+                createScheduleTxtAddNotesWednesday.visibility = View.GONE
+            }
+        }
+
+        createScheduleTxtAddNotesWednesday.setOnClickListener {
+            addNotes(DayInBahasa.WEDNESDAY.desc)
+        }
+
+        createScheduleCbThursday.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                createScheduleTxtAddNotesThursday.visibility = View.VISIBLE
+            }else{
+                createScheduleTxtAddNotesThursday.visibility = View.GONE
+            }
+        }
+
+        createScheduleTxtAddNotesThursday.setOnClickListener {
+            addNotes(DayInBahasa.THURSDAY.desc)
+        }
+
+        createScheduleCbFriday.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                createScheduleTxtAddNotesFriday.visibility = View.VISIBLE
+            }else{
+                createScheduleTxtAddNotesFriday.visibility = View.GONE
+            }
+        }
+
+        createScheduleTxtAddNotesFriday.setOnClickListener {
+            addNotes(DayInBahasa.FRIDAY.desc)
+        }
+
+        createScheduleCbSaturday.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                createScheduleTxtAddNotesSaturday.visibility = View.VISIBLE
+            }else{
+                createScheduleTxtAddNotesSaturday.visibility = View.GONE
+            }
+        }
+
+        createScheduleTxtAddNotesSaturday.setOnClickListener {
+            addNotes(DayInBahasa.SATURDAY.desc)
+        }
+
+        createScheduleCbSunday.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                createScheduleTxtAddNotesSunday.visibility = View.VISIBLE
+            }else{
+                createScheduleTxtAddNotesSunday.visibility = View.GONE
+            }
+        }
+
+        createScheduleTxtAddNotesSunday.setOnClickListener {
+            addNotes(DayInBahasa.SUNDAY.desc)
+        }
 
         startHourPicked = MyDateFormatter.getHourFromDate(Date())
         startMinutePicked = MyDateFormatter.getMinuteFromDate(Date())
@@ -200,6 +225,29 @@ class CreateScheduleActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
+    private fun addNotes(day: String) {
+        val builder = AlertDialog.Builder(this@CreateScheduleActivity)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_schedule_notes, null)
+        builder.setView(dialogView)
+
+        val etSubject: EditText = dialogView.dialogScheduleNotesEtSubject
+        val etNotes: EditText = dialogView.dialogScheduleNotesEtNotes
+
+        builder.setTitle(day)
+
+        builder.setPositiveButton("Simpan", { _ , _ ->
+
+        })
+
+        builder.setNegativeButton("Hapus", { _ , _ ->
+
+        })
+
+        builder.show()
+    }
+
     private fun setRvDailyNotesAdapterData(dataDailyNotes: ArrayList<ScheduleDailyNotes>) {
         if(dataDailyNotesPicked.isNotEmpty()){
             dataDailyNotesPicked.clear()
@@ -210,8 +258,6 @@ class CreateScheduleActivity : AppCompatActivity() {
                 dataDailyNotesPicked.add(dataDailyNotes[i])
             }
         }
-
-        adapterRvDailyNotes.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -376,6 +422,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         builder.show()
     }
 
+    @SuppressLint("InflateParams")
     private fun setAlarm(){
         val builder = AlertDialog.Builder(this@CreateScheduleActivity)
         val inflater = this.layoutInflater

@@ -208,7 +208,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -228,8 +228,24 @@
                         android:textColor="@color/colorTextGray"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/createScheduleCbMonday"
+                        android:layout_toStartOf="@id/createScheduleTxtAddNotesMonday"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/createScheduleTxtAddNotesMonday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="catatan"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextGray"
+                        android:drawableStart="@drawable/ic_add"
+                        android:drawablePadding="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -243,7 +259,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -263,8 +279,24 @@
                         android:textColor="@color/colorTextGray"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/createScheduleCbTuesday"
+                        android:layout_toStartOf="@id/createScheduleTxtAddNotesTuesday"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/createScheduleTxtAddNotesTuesday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="catatan"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextGray"
+                        android:drawableStart="@drawable/ic_add"
+                        android:drawablePadding="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -278,7 +310,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -298,8 +330,24 @@
                         android:textColor="@color/colorTextGray"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/createScheduleCbWednesday"
+                        android:layout_toStartOf="@id/createScheduleTxtAddNotesWednesday"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/createScheduleTxtAddNotesWednesday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="catatan"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextGray"
+                        android:drawableStart="@drawable/ic_add"
+                        android:drawablePadding="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -313,7 +361,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -333,8 +381,24 @@
                         android:textColor="@color/colorTextGray"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/createScheduleCbThursday"
+                        android:layout_toStartOf="@id/createScheduleTxtAddNotesThursday"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/createScheduleTxtAddNotesThursday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="catatan"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextGray"
+                        android:drawableStart="@drawable/ic_add"
+                        android:drawablePadding="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -348,7 +412,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -368,8 +432,24 @@
                         android:textColor="@color/colorTextGray"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/createScheduleCbFriday"
+                        android:layout_toStartOf="@id/createScheduleTxtAddNotesFriday"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/createScheduleTxtAddNotesFriday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="catatan"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextGray"
+                        android:drawableStart="@drawable/ic_add"
+                        android:drawablePadding="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -383,7 +463,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -403,8 +483,24 @@
                         android:textColor="@color/colorTextGray"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/createScheduleCbSaturday"
+                        android:layout_toStartOf="@id/createScheduleTxtAddNotesSaturday"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/createScheduleTxtAddNotesSaturday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="catatan"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextGray"
+                        android:drawableStart="@drawable/ic_add"
+                        android:drawablePadding="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -418,7 +514,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -438,8 +534,24 @@
                         android:textColor="@color/colorTextGray"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/createScheduleCbSunday"
+                        android:layout_toStartOf="@id/createScheduleTxtAddNotesSunday"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/createScheduleTxtAddNotesSunday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="catatan"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorTextGray"
+                        android:drawableStart="@drawable/ic_add"
+                        android:drawablePadding="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -579,40 +691,6 @@
                 </RelativeLayout>
 
             </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:contentPaddingLeft="15dp"
-            app:contentPaddingRight="15dp"
-            app:cardCornerRadius="3dp">
-
-            <LinearLayout
-                android:id="@+id/createScheduleAddNotesLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tambahkan keterangan/ mata pelajaran/ matkul"
-                    android:textSize="14sp"
-                    android:gravity="center_vertical"
-                    android:drawableStart="@drawable/ic_add"
-                    android:drawablePadding="5dp"/>
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/createScheduleRvDailyNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
 
         </android.support.v7.widget.CardView>
 
