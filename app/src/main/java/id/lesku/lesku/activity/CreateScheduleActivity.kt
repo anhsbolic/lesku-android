@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -28,14 +30,12 @@ class CreateScheduleActivity : AppCompatActivity() {
 
     private var dataStudents: ArrayList<Student> = ArrayList()
     private var student: Student? = null
-    private lateinit var datePicked: Date
     private var startHourPicked: Int = 0
     private var startMinutePicked: Int = 0
     private var endHourPicked: Int = 0
     private var endMinutePicked: Int = 0
     private var strTimePicked: ReminderTime = ReminderTime.MINUTES
     private var intReminderValue: Int = 10
-    private var intReminderTimeInMillis: Int = 0
     private var isReminderSet: Boolean = false
     private var colorTextGray: Int = 0
     private var colorTextPrimary: Int = 0
@@ -67,10 +67,8 @@ class CreateScheduleActivity : AppCompatActivity() {
 
         //Init Data
         loadThenSetStudentData()
-        datePicked = Date()
-        createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
 
-        //UI Handling & listener
+        //Student Data
         createScheduleSearchAutoComplete.setOnFocusChangeListener { _, hasFocus ->
             if(!hasFocus){
                 val studentName = createScheduleSearchAutoComplete.text.toString()
@@ -90,11 +88,45 @@ class CreateScheduleActivity : AppCompatActivity() {
                 }
             }
         }
+        createScheduleTxtAnotherAddress.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(editable: Editable?) {
+                if(!editable.isNullOrEmpty()){
+                    anotherAddress = createScheduleTxtAnotherAddress.text.toString()
+                }
+            }
 
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        //Start Date
+        startDate = Date()
+        startDate
+        createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(startDate)
         createScheduleTxtStartDate.setOnClickListener {
-            getDate(datePicked)
+            getDate(startDate)
         }
 
+        //Total Weeks
+        createScheduleEtWeeks.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(editable: Editable?) {
+                if(!editable.isNullOrEmpty()){
+                    totalWeeks = createScheduleEtWeeks.text.toString().toInt()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+
+        //
         createScheduleCbMonday.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
                 createScheduleTxtAddNotesMonday.visibility = View.VISIBLE
@@ -187,31 +219,37 @@ class CreateScheduleActivity : AppCompatActivity() {
             addNotes(DayInBahasa.SUNDAY.desc)
         }
 
+        //StartTime
         startHourPicked = MyDateFormatter.getHourFromDate(Date())
         startMinutePicked = MyDateFormatter.getMinuteFromDate(Date())
-        createScheduleTxtStartTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
+        startTime = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
+        createScheduleTxtStartTime.text = startTime
 
         createScheduleStartTimeLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
             getTime("START_TIME", startHourPicked, startMinutePicked)
         }
 
+        //EndTime
         endHourPicked = MyDateFormatter.getHourFromDate(Date())
         endMinutePicked = MyDateFormatter.getMinuteFromDate(Date())
-        createScheduleTxtEndTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
+        endTime = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
+        createScheduleTxtEndTime.text = endTime
 
         createScheduleEndTimeLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
             getTime("END_TIME", endHourPicked, endMinutePicked)
         }
 
+        //AlarmTime
         createScheduleReminderAlarmLayout.setOnClickListener {
             createScheduleCvTime.requestFocus()
             setAlarm()
         }
 
         createScheduleBtnReminderReset.setOnClickListener {
-            intReminderTimeInMillis = 0
+            intReminderValue = 10
+            alarmTime = 0
             isReminderSet = false
             createScheduleTxtReminderAlarmTime.text = "set alarm"
             createScheduleBtnReminderReset.visibility = View.GONE
@@ -387,8 +425,8 @@ class CreateScheduleActivity : AppCompatActivity() {
             val intDay = myDatePicker.dayOfMonth
             val intMonth = myDatePicker.month
             val intYear = myDatePicker.year
-            datePicked = MyDateFormatter.getDate(intDay, intMonth, intYear)
-            createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
+            startDate = MyDateFormatter.getDate(intDay, intMonth, intYear)
+            createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(startDate)
         })
 
         builder.show()
@@ -428,20 +466,18 @@ class CreateScheduleActivity : AppCompatActivity() {
                     startHourPicked = hourPicked
                     startMinutePicked = minutePicked
                     if(startHourPicked < endHourPicked){
-                        createScheduleTxtStartTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
+                        startTime = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
+                        createScheduleTxtStartTime.text = startTime
                     }else if(startHourPicked == endHourPicked){
                         if(startMinutePicked <= endMinutePicked){
-                            createScheduleTxtStartTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
+                            startTime = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
+                            createScheduleTxtStartTime.text = startTime
                         }else{
-                            createScheduleTxtStartTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
-                            val endTime = MyDateFormatter.getTime(endHourPicked,endMinutePicked)
                             val toastMsg = "Pilih kurang dari pukul $endTime"
                             Toast.makeText(this@CreateScheduleActivity,toastMsg,
                                     Toast.LENGTH_SHORT).show()
                         }
                     }else if(startHourPicked > endHourPicked){
-                        createScheduleTxtStartTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
-                        val endTime = MyDateFormatter.getTime(endHourPicked,endMinutePicked)
                         val toastMsg = "Pilih kurang dari pukul $endTime"
                         Toast.makeText(this@CreateScheduleActivity,toastMsg,
                                 Toast.LENGTH_SHORT).show()
@@ -451,20 +487,18 @@ class CreateScheduleActivity : AppCompatActivity() {
                     endHourPicked = hourPicked
                     endMinutePicked = minutePicked
                     if(endHourPicked > startHourPicked){
-                        createScheduleTxtEndTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
+                        endTime = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
+                        createScheduleTxtEndTime.text = endTime
                     }else if(endHourPicked == startHourPicked){
                         if(endMinutePicked >= startMinutePicked){
-                            createScheduleTxtEndTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
+                            endTime = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
+                            createScheduleTxtEndTime.text = endTime
                         }else{
-                            createScheduleTxtEndTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
-                            val startTime = MyDateFormatter.getTime(startHourPicked,startMinutePicked)
                             val toastMsg = "Pilih lebih dari pukul $startTime"
                             Toast.makeText(this@CreateScheduleActivity,toastMsg,
                                     Toast.LENGTH_SHORT).show()
                         }
                     }else if(endHourPicked < startHourPicked){
-                        createScheduleTxtEndTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
-                        val startTime = MyDateFormatter.getTime(startHourPicked,startMinutePicked)
                         val toastMsg = "Pilih lebih dari pukul $startTime"
                         Toast.makeText(this@CreateScheduleActivity,toastMsg,
                                 Toast.LENGTH_SHORT).show()
@@ -563,15 +597,15 @@ class CreateScheduleActivity : AppCompatActivity() {
                 val strTime: String
                 when(strTimePicked){
                     ReminderTime.MINUTES ->{
-                        intReminderTimeInMillis = intReminderValue * 60 * 1000
+                        alarmTime = intReminderValue.toLong() * 60 * 1000
                         strTime = ReminderTime.MINUTES.desc
                     }
                     ReminderTime.HOUR ->{
-                        intReminderTimeInMillis = intReminderValue * 60 * 60 * 1000
+                        alarmTime = intReminderValue.toLong() * 60 * 60 * 1000
                         strTime = ReminderTime.HOUR.desc
                     }
                     ReminderTime.DAY ->{
-                        intReminderTimeInMillis = intReminderValue * 24 * 60 * 60 * 1000
+                        alarmTime = intReminderValue.toLong() * 24 * 60 * 60 * 1000
                         strTime = ReminderTime.DAY.desc
                     }
                 }
