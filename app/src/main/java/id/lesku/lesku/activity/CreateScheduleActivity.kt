@@ -415,8 +415,10 @@ class CreateScheduleActivity : AppCompatActivity() {
                 "START_TIME" ->{
                     startHourPicked = hourPicked
                     startMinutePicked = minutePicked
-                    if(startHourPicked <= endHourPicked ){
-                        if(startMinutePicked <= endMinutePicked ){
+                    if(startHourPicked < endHourPicked){
+                        createScheduleTxtStartTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
+                    }else if(startHourPicked == endHourPicked){
+                        if(startMinutePicked <= endMinutePicked){
                             createScheduleTxtStartTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
                         }else{
                             createScheduleTxtStartTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
@@ -425,10 +427,10 @@ class CreateScheduleActivity : AppCompatActivity() {
                             Toast.makeText(this@CreateScheduleActivity,toastMsg,
                                     Toast.LENGTH_SHORT).show()
                         }
-                    }else{
+                    }else if(startHourPicked > endHourPicked){
                         createScheduleTxtStartTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
-                        val startTime = MyDateFormatter.getTime(startHourPicked,startMinutePicked)
-                        val toastMsg = "Pilih lebih dari pukul $startTime"
+                        val endTime = MyDateFormatter.getTime(endHourPicked,endMinutePicked)
+                        val toastMsg = "Pilih kurang dari pukul $endTime"
                         Toast.makeText(this@CreateScheduleActivity,toastMsg,
                                 Toast.LENGTH_SHORT).show()
                     }
@@ -436,7 +438,9 @@ class CreateScheduleActivity : AppCompatActivity() {
                 "END_TIME" ->{
                     endHourPicked = hourPicked
                     endMinutePicked = minutePicked
-                    if(endHourPicked >= startHourPicked){
+                    if(endHourPicked > startHourPicked){
+                        createScheduleTxtEndTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
+                    }else if(endHourPicked == startHourPicked){
                         if(endMinutePicked >= startMinutePicked){
                             createScheduleTxtEndTime.text = MyDateFormatter.getTime(endHourPicked, endMinutePicked)
                         }else{
@@ -446,7 +450,7 @@ class CreateScheduleActivity : AppCompatActivity() {
                             Toast.makeText(this@CreateScheduleActivity,toastMsg,
                                     Toast.LENGTH_SHORT).show()
                         }
-                    }else{
+                    }else if(endHourPicked < startHourPicked){
                         createScheduleTxtEndTime.text = MyDateFormatter.getTime(startHourPicked, startMinutePicked)
                         val startTime = MyDateFormatter.getTime(startHourPicked,startMinutePicked)
                         val toastMsg = "Pilih lebih dari pukul $startTime"
