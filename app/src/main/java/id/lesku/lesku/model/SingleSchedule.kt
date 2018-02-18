@@ -16,8 +16,10 @@ data class SingleSchedule(var id_single_schedule: Int?,
                           var date: Date?,
                           var subject: String?,
                           var notes: String?,
-                          var status: String?) : Parcelable {
+                          var status: String?,
+                          var isChecked: Boolean?) : Parcelable {
     constructor(): this(
+            null,
             null,
             null,
             null,

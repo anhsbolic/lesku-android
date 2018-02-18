@@ -5,6 +5,7 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.util.ArrayMap
 import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,8 +24,10 @@ import kotlin.collections.ArrayList
 import android.widget.DatePicker
 import id.lesku.lesku.model.Schedule
 import id.lesku.lesku.model.SingleSchedule
+import id.lesku.lesku.utils.SingleScheduleStatus
 import kotlinx.android.synthetic.main.dialog_schedule_notes.view.*
 import kotlinx.android.synthetic.main.dialog_set_reminder.view.*
+import kotlin.collections.HashMap
 
 class CreateScheduleActivity : AppCompatActivity() {
 
@@ -51,7 +54,7 @@ class CreateScheduleActivity : AppCompatActivity() {
     private lateinit var dayList: String
     private lateinit var subjectList: String
     private lateinit var notesList: String
-    private var dataSingleSchedule: ArrayList<SingleSchedule> = ArrayList()
+    private var dataSchedules: ArrayList<SingleSchedule> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +68,26 @@ class CreateScheduleActivity : AppCompatActivity() {
         colorTextGray = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextGray)
         colorTextPrimary = ContextCompat.getColor(this@CreateScheduleActivity, R.color.colorTextPrimary)
 
-        //Init Data
+        //Init Student Data
         loadThenSetStudentData()
+
+        //Init all day schedule Data
+        val dateNow = Date()
+        val statusScheduled = SingleScheduleStatus.SCHEDULED.toString()
+        val mondaySchedule = SingleSchedule(0, dateNow, dateNow, null, null, null, null, statusScheduled, false)
+        val tuesdaySchedule = SingleSchedule(1, dateNow, dateNow, null, null, null, null, statusScheduled, false)
+        val wednesdaySchedule = SingleSchedule(2, dateNow, dateNow, null, null, null, null, statusScheduled, false)
+        val thursdaySchedule = SingleSchedule(3, dateNow, dateNow, null, null, null, null, statusScheduled, false)
+        val fridaySchedule = SingleSchedule(4, dateNow, dateNow, null, null, null, null, statusScheduled, false)
+        val saturdaySchedule = SingleSchedule(5, dateNow, dateNow, null, null, null, null, statusScheduled, false)
+        val sundaySchedule = SingleSchedule(6, dateNow, dateNow, null, null, null, null, statusScheduled, false)
+        dataSchedules.add(mondaySchedule)
+        dataSchedules.add(tuesdaySchedule)
+        dataSchedules.add(wednesdaySchedule)
+        dataSchedules.add(thursdaySchedule)
+        dataSchedules.add(fridaySchedule)
+        dataSchedules.add(saturdaySchedule)
+        dataSchedules.add(sundaySchedule)
 
         //Student Data
         createScheduleSearchAutoComplete.setOnFocusChangeListener { _, hasFocus ->
@@ -126,8 +147,9 @@ class CreateScheduleActivity : AppCompatActivity() {
         })
 
 
-        //
+        //Single Schedule
         createScheduleCbMonday.setOnCheckedChangeListener { _, isChecked ->
+            dataSchedules[0].isChecked = isChecked
             if(isChecked){
                 createScheduleTxtAddNotesMonday.visibility = View.VISIBLE
                 if(createScheduleTxtSubjectMonday.text.toString().isNotEmpty()){
@@ -148,6 +170,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         }
 
         createScheduleCbTuesday.setOnCheckedChangeListener { _, isChecked ->
+            dataSchedules[1].isChecked = isChecked
             if(isChecked){
                 createScheduleTxtAddNotesTuesday.visibility = View.VISIBLE
             }else{
@@ -160,6 +183,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         }
 
         createScheduleCbWednesday.setOnCheckedChangeListener { _, isChecked ->
+            dataSchedules[2].isChecked = isChecked
             if(isChecked){
                 createScheduleTxtAddNotesWednesday.visibility = View.VISIBLE
             }else{
@@ -172,6 +196,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         }
 
         createScheduleCbThursday.setOnCheckedChangeListener { _, isChecked ->
+            dataSchedules[3].isChecked = isChecked
             if(isChecked){
                 createScheduleTxtAddNotesThursday.visibility = View.VISIBLE
             }else{
@@ -184,6 +209,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         }
 
         createScheduleCbFriday.setOnCheckedChangeListener { _, isChecked ->
+            dataSchedules[4].isChecked = isChecked
             if(isChecked){
                 createScheduleTxtAddNotesFriday.visibility = View.VISIBLE
             }else{
@@ -196,6 +222,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         }
 
         createScheduleCbSaturday.setOnCheckedChangeListener { _, isChecked ->
+            dataSchedules[5].isChecked = isChecked
             if(isChecked){
                 createScheduleTxtAddNotesSaturday.visibility = View.VISIBLE
             }else{
@@ -208,6 +235,7 @@ class CreateScheduleActivity : AppCompatActivity() {
         }
 
         createScheduleCbSunday.setOnCheckedChangeListener { _, isChecked ->
+            dataSchedules[6].isChecked = isChecked
             if(isChecked){
                 createScheduleTxtAddNotesSunday.visibility = View.VISIBLE
             }else{
@@ -274,10 +302,12 @@ class CreateScheduleActivity : AppCompatActivity() {
             when(day){
                 DayInBahasa.MONDAY.desc->{
                     if(subject.isNotEmpty()){
+                        dataSchedules[0].subject = subject
                         createScheduleTxtSubjectMonday.text = subject
                         createScheduleTxtSubjectMonday.visibility = View.VISIBLE
                     }
                     if(notes.isNotEmpty()){
+                        dataSchedules[0].notes = notes
                         createScheduleTxtNotesMonday.text = notes
                         createScheduleTxtNotesMonday.visibility = View.VISIBLE
                     }
@@ -285,10 +315,12 @@ class CreateScheduleActivity : AppCompatActivity() {
                 }
                 DayInBahasa.TUESDAY.desc->{
                     if(subject.isNotEmpty()){
+                        dataSchedules[1].subject = subject
                         createScheduleTxtSubjectTuesday.text = subject
                         createScheduleTxtSubjectTuesday.visibility = View.VISIBLE
                     }
                     if(notes.isNotEmpty()){
+                        dataSchedules[1].notes = notes
                         createScheduleTxtNotesTuesday.text = notes
                         createScheduleTxtNotesTuesday.visibility = View.VISIBLE
                     }
@@ -296,10 +328,12 @@ class CreateScheduleActivity : AppCompatActivity() {
                 }
                 DayInBahasa.WEDNESDAY.desc->{
                     if(subject.isNotEmpty()){
+                        dataSchedules[2].subject = subject
                         createScheduleTxtSubjectWednesday.text = subject
                         createScheduleTxtSubjectWednesday.visibility = View.VISIBLE
                     }
                     if(notes.isNotEmpty()){
+                        dataSchedules[2].notes = notes
                         createScheduleTxtNotesWednesday.text = notes
                         createScheduleTxtNotesWednesday.visibility = View.VISIBLE
                     }
@@ -307,10 +341,12 @@ class CreateScheduleActivity : AppCompatActivity() {
                 }
                 DayInBahasa.THURSDAY.desc->{
                     if(subject.isNotEmpty()){
+                        dataSchedules[3].subject = subject
                         createScheduleTxtSubjectThursday.text = subject
                         createScheduleTxtSubjectThursday.visibility = View.VISIBLE
                     }
                     if(notes.isNotEmpty()){
+                        dataSchedules[3].notes = notes
                         createScheduleTxtNotesThursday.text = notes
                         createScheduleTxtNotesThursday.visibility = View.VISIBLE
                     }
@@ -318,10 +354,12 @@ class CreateScheduleActivity : AppCompatActivity() {
                 }
                 DayInBahasa.FRIDAY.desc->{
                     if(subject.isNotEmpty()){
+                        dataSchedules[4].subject = subject
                         createScheduleTxtSubjectFriday.text = subject
                         createScheduleTxtSubjectFriday.visibility = View.VISIBLE
                     }
                     if(notes.isNotEmpty()){
+                        dataSchedules[4].notes = notes
                         createScheduleTxtNotesFriday.text = notes
                         createScheduleTxtNotesFriday.visibility = View.VISIBLE
                     }
@@ -329,10 +367,12 @@ class CreateScheduleActivity : AppCompatActivity() {
                 }
                 DayInBahasa.SATURDAY.desc->{
                     if(subject.isNotEmpty()){
+                        dataSchedules[5].subject = subject
                         createScheduleTxtSubjectSaturday.text = subject
                         createScheduleTxtSubjectSaturday.visibility = View.VISIBLE
                     }
                     if(notes.isNotEmpty()){
+                        dataSchedules[5].notes = notes
                         createScheduleTxtNotesSaturday.text = notes
                         createScheduleTxtNotesSaturday.visibility = View.VISIBLE
                     }
@@ -340,10 +380,12 @@ class CreateScheduleActivity : AppCompatActivity() {
                 }
                 DayInBahasa.SUNDAY.desc->{
                     if(subject.isNotEmpty()){
+                        dataSchedules[6].subject = subject
                         createScheduleTxtSubjectSunday.text = subject
                         createScheduleTxtSubjectSunday.visibility = View.VISIBLE
                     }
                     if(notes.isNotEmpty()){
+                        dataSchedules[6].notes = notes
                         createScheduleTxtNotesSunday.text = notes
                         createScheduleTxtNotesSunday.visibility = View.VISIBLE
                     }
@@ -353,7 +395,71 @@ class CreateScheduleActivity : AppCompatActivity() {
         })
 
         builder.setNegativeButton("Hapus", { _ , _ ->
-
+            when(day){
+                DayInBahasa.MONDAY.desc->{
+                    dataSchedules[0].subject = null
+                    dataSchedules[0].notes = null
+                    createScheduleTxtSubjectMonday.text = null
+                    createScheduleTxtSubjectMonday.visibility = View.GONE
+                    createScheduleTxtNotesMonday.text = null
+                    createScheduleTxtNotesMonday.visibility = View.GONE
+                    createScheduleMondayLayout.requestFocus()
+                }
+                DayInBahasa.TUESDAY.desc->{
+                    dataSchedules[1].subject = null
+                    dataSchedules[1].notes = null
+                    createScheduleTxtSubjectTuesday.text = null
+                    createScheduleTxtSubjectTuesday.visibility = View.GONE
+                    createScheduleTxtNotesTuesday.text = null
+                    createScheduleTxtNotesTuesday.visibility = View.GONE
+                    createScheduleTuesdayLayout.requestFocus()
+                }
+                DayInBahasa.WEDNESDAY.desc->{
+                    dataSchedules[2].subject = null
+                    dataSchedules[2].notes = null
+                    createScheduleTxtSubjectWednesday.text = null
+                    createScheduleTxtSubjectWednesday.visibility = View.GONE
+                    createScheduleTxtNotesWednesday.text = null
+                    createScheduleTxtNotesWednesday.visibility = View.GONE
+                    createScheduleWednesdayLayout.requestFocus()
+                }
+                DayInBahasa.THURSDAY.desc->{
+                    dataSchedules[3].subject = null
+                    dataSchedules[3].notes = null
+                    createScheduleTxtSubjectThursday.text = null
+                    createScheduleTxtSubjectThursday.visibility = View.GONE
+                    createScheduleTxtNotesThursday.text = null
+                    createScheduleTxtNotesThursday.visibility = View.GONE
+                    createScheduleThursdayLayout.requestFocus()
+                }
+                DayInBahasa.FRIDAY.desc->{
+                    dataSchedules[4].subject = null
+                    dataSchedules[4].notes = null
+                    createScheduleTxtSubjectFriday.text = null
+                    createScheduleTxtSubjectFriday.visibility = View.GONE
+                    createScheduleTxtNotesFriday.text = null
+                    createScheduleTxtNotesFriday.visibility = View.GONE
+                    createScheduleFridayLayout.requestFocus()
+                }
+                DayInBahasa.SATURDAY.desc->{
+                    dataSchedules[5].subject = null
+                    dataSchedules[5].notes = null
+                    createScheduleTxtSubjectSaturday.text = null
+                    createScheduleTxtSubjectSaturday.visibility = View.GONE
+                    createScheduleTxtNotesSaturday.text = null
+                    createScheduleTxtNotesSaturday.visibility = View.GONE
+                    createScheduleSaturdayLayout.requestFocus()
+                }
+                DayInBahasa.SUNDAY.desc->{
+                    dataSchedules[6].subject = null
+                    dataSchedules[6].notes = null
+                    createScheduleTxtSubjectSunday.text = null
+                    createScheduleTxtSubjectSunday.visibility = View.GONE
+                    createScheduleTxtNotesSunday.text = null
+                    createScheduleTxtNotesSunday.visibility = View.GONE
+                    createScheduleSundayLayout.requestFocus()
+                }
+            }
         })
 
         builder.show()
@@ -621,6 +727,20 @@ class CreateScheduleActivity : AppCompatActivity() {
     }
 
     private fun saveSchedule(){
-        Log.d("TES","SAVE")
+        //get daily schedule
+        for(i in 0 until dataSchedules.size){
+            if(dataSchedules[i].isChecked!!){
+                val id = dataSchedules[i].id_single_schedule!!
+                Log.d("Hari",id.toString())
+                val subject = dataSchedules[i].subject
+                if(subject != null){
+                    Log.d("Mapel",subject)
+                }
+                val notes = dataSchedules[i].notes
+                if(notes != null){
+                    Log.d("Catt",notes)
+                }
+            }
+        }
     }
 }
