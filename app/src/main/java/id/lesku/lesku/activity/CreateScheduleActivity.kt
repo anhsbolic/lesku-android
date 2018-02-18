@@ -19,9 +19,10 @@ import kotlinx.android.synthetic.main.activity_create_schedule.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.DatePicker
+import id.lesku.lesku.model.Schedule
+import id.lesku.lesku.model.SingleSchedule
 import kotlinx.android.synthetic.main.dialog_schedule_notes.view.*
 import kotlinx.android.synthetic.main.dialog_set_reminder.view.*
-
 
 class CreateScheduleActivity : AppCompatActivity() {
 
@@ -38,6 +39,19 @@ class CreateScheduleActivity : AppCompatActivity() {
     private var isReminderSet: Boolean = false
     private var colorTextGray: Int = 0
     private var colorTextPrimary: Int = 0
+
+    private lateinit var schedule: Schedule
+    private var idStudent: Int = 0
+    private lateinit var anotherAddress: String
+    private lateinit var startDate: Date
+    private var totalWeeks: Int = 0
+    private lateinit var startTime: String
+    private lateinit var endTime: String
+    private var alarmTime: Long = 0
+    private lateinit var dayList: String
+    private lateinit var subjectList: String
+    private lateinit var notesList: String
+    private var dataSingleSchedule: ArrayList<SingleSchedule> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,16 +73,17 @@ class CreateScheduleActivity : AppCompatActivity() {
         //UI Handling & listener
         createScheduleSearchAutoComplete.setOnFocusChangeListener { _, hasFocus ->
             if(!hasFocus){
-                if(createScheduleSearchAutoComplete.text.toString().isNotEmpty()){
+                val studentName = createScheduleSearchAutoComplete.text.toString()
+                if(studentName.isNotEmpty()){
                     createScheduleSearchAutoComplete.error = null
-                    if(isStudentRegistered()){
-                        Log.d("TES", student!!.id_student!!.toString())
+                    student = getStudentData(studentName)
+                    if(student != null){
+                        idStudent = student!!.id_student!!
                         createScheduleTxtAddress.isEnabled = false
                         createScheduleTxtAddress.setText(student!!.address!!)
                         createScheduleTxtAddressLayout.visibility = View.VISIBLE
                     }else{
                         createScheduleSearchAutoComplete.error = "Siswa Belum Terdaftar"
-                        //TODO : create nav to add student
                     }
                 }else{
                     createScheduleSearchAutoComplete.error = "Pilih Siswa"
@@ -349,18 +364,15 @@ class CreateScheduleActivity : AppCompatActivity() {
         return dbStudent.getListStudents()
     }
 
-    private fun isStudentRegistered(): Boolean {
-        val studentName = createScheduleSearchAutoComplete.text.toString()
-        //check the category is new or not
-        var isRegistered = false
+    private fun getStudentData(studentName: String): Student?{
+        var studentData: Student? = null
         for(i in 0 until dataStudents.size){
             if(dataStudents[i].name!!.toLowerCase().trim() == studentName.toLowerCase().trim() ){
-                isRegistered = true
-                student = dataStudents[i]
+                studentData = dataStudents[i]
                 break
             }
         }
-        return isRegistered
+        return studentData
     }
 
     private fun getDate(date: Date){
