@@ -5,7 +5,6 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v4.util.ArrayMap
 import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,12 +21,13 @@ import kotlinx.android.synthetic.main.activity_create_schedule.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.DatePicker
+import com.google.gson.GsonBuilder
 import id.lesku.lesku.model.Schedule
+import id.lesku.lesku.model.ScheduleDayDetails
 import id.lesku.lesku.model.SingleSchedule
 import id.lesku.lesku.utils.SingleScheduleStatus
 import kotlinx.android.synthetic.main.dialog_schedule_notes.view.*
 import kotlinx.android.synthetic.main.dialog_set_reminder.view.*
-import kotlin.collections.HashMap
 
 class CreateScheduleActivity : AppCompatActivity() {
 
@@ -43,7 +43,6 @@ class CreateScheduleActivity : AppCompatActivity() {
     private var colorTextGray: Int = 0
     private var colorTextPrimary: Int = 0
 
-    private lateinit var schedule: Schedule
     private var idStudent: Int = 0
     private lateinit var anotherAddress: String
     private lateinit var startDate: Date
@@ -51,9 +50,6 @@ class CreateScheduleActivity : AppCompatActivity() {
     private lateinit var startTime: String
     private lateinit var endTime: String
     private var alarmTime: Long = 0
-    private lateinit var dayList: String
-    private lateinit var subjectList: String
-    private lateinit var notesList: String
     private var dataSchedules: ArrayList<SingleSchedule> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -728,19 +724,35 @@ class CreateScheduleActivity : AppCompatActivity() {
 
     private fun saveSchedule(){
         //get daily schedule
+        val dataDayDetails: ArrayList<ScheduleDayDetails> = ArrayList()
         for(i in 0 until dataSchedules.size){
             if(dataSchedules[i].isChecked!!){
                 val id = dataSchedules[i].id_single_schedule!!
-                Log.d("Hari",id.toString())
-                val subject = dataSchedules[i].subject
-                if(subject != null){
-                    Log.d("Mapel",subject)
+                var subject = dataSchedules[i].subject
+                if(subject == null){
+                    subject = ""
                 }
-                val notes = dataSchedules[i].notes
-                if(notes != null){
-                    Log.d("Catt",notes)
+                var notes = dataSchedules[i].notes
+                if(notes == null){
+                    notes = ""
                 }
+                val scheduleDayDetails = ScheduleDayDetails("Hari", subject, notes)
+                dataDayDetails.add(scheduleDayDetails)
             }
         }
+        val gson = GsonBuilder().create()
+        val dayDetails = gson.toJsonTree(dataDayDetails).asJsonArray
+        val schedule = Schedule(
+                null,
+                Date(),
+                Date(),
+                idStudent,
+                anotherAddress,
+                startDate,
+                totalWeeks,
+                startTime,
+                endTime,
+                alarmTime,
+                dayDetails.toString())
     }
 }

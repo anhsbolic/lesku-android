@@ -19,12 +19,8 @@ data class Schedule(var id_schedule: Int?,
                     var start_time: String?,
                     var end_time: String?,
                     var alarm_time: Long?,
-                    var day_list: String?,
-                    var subject_list: String?,
-                    var notes_list: String?) : Parcelable {
+                    var days_details: String?) : Parcelable {
     constructor():this(
-            null,
-            null,
             null,
             null,
             null,
