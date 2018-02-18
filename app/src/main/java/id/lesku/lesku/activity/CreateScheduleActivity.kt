@@ -110,11 +110,23 @@ class CreateScheduleActivity : AppCompatActivity() {
             }
         }
 
+        createScheduleTxtStartDate.setOnClickListener {
+            getDate(datePicked)
+        }
+
         createScheduleCbMonday.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
                 createScheduleTxtAddNotesMonday.visibility = View.VISIBLE
+                if(createScheduleTxtSubjectMonday.text.toString().isNotEmpty()){
+                    createScheduleTxtSubjectMonday.visibility = View.VISIBLE
+                }
+                if(createScheduleTxtNotesMonday.text.toString().isNotEmpty()){
+                    createScheduleTxtNotesMonday.visibility = View.VISIBLE
+                }
             }else{
                 createScheduleTxtAddNotesMonday.visibility = View.GONE
+                createScheduleTxtSubjectMonday.visibility = View.GONE
+                createScheduleTxtNotesMonday.visibility = View.GONE
             }
         }
 
@@ -228,7 +240,7 @@ class CreateScheduleActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     private fun addNotes(day: String) {
         val builder = AlertDialog.Builder(this@CreateScheduleActivity)
-        val inflater = this.layoutInflater
+        val inflater = layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_schedule_notes, null)
         builder.setView(dialogView)
 
@@ -238,7 +250,87 @@ class CreateScheduleActivity : AppCompatActivity() {
         builder.setTitle(day)
 
         builder.setPositiveButton("Simpan", { _ , _ ->
-
+            val subject = etSubject.text.toString().trim()
+            val notes = etNotes.text.toString().trim()
+            when(day){
+                DayInBahasa.MONDAY.desc->{
+                    if(subject.isNotEmpty()){
+                        createScheduleTxtSubjectMonday.text = subject
+                        createScheduleTxtSubjectMonday.visibility = View.VISIBLE
+                    }
+                    if(notes.isNotEmpty()){
+                        createScheduleTxtNotesMonday.text = notes
+                        createScheduleTxtNotesMonday.visibility = View.VISIBLE
+                    }
+                    createScheduleMondayLayout.requestFocus()
+                }
+                DayInBahasa.TUESDAY.desc->{
+                    if(subject.isNotEmpty()){
+                        createScheduleTxtSubjectTuesday.text = subject
+                        createScheduleTxtSubjectTuesday.visibility = View.VISIBLE
+                    }
+                    if(notes.isNotEmpty()){
+                        createScheduleTxtNotesTuesday.text = notes
+                        createScheduleTxtNotesTuesday.visibility = View.VISIBLE
+                    }
+                    createScheduleTuesdayLayout.requestFocus()
+                }
+                DayInBahasa.WEDNESDAY.desc->{
+                    if(subject.isNotEmpty()){
+                        createScheduleTxtSubjectWednesday.text = subject
+                        createScheduleTxtSubjectWednesday.visibility = View.VISIBLE
+                    }
+                    if(notes.isNotEmpty()){
+                        createScheduleTxtNotesWednesday.text = notes
+                        createScheduleTxtNotesWednesday.visibility = View.VISIBLE
+                    }
+                    createScheduleWednesdayLayout.requestFocus()
+                }
+                DayInBahasa.THURSDAY.desc->{
+                    if(subject.isNotEmpty()){
+                        createScheduleTxtSubjectThursday.text = subject
+                        createScheduleTxtSubjectThursday.visibility = View.VISIBLE
+                    }
+                    if(notes.isNotEmpty()){
+                        createScheduleTxtNotesThursday.text = notes
+                        createScheduleTxtNotesThursday.visibility = View.VISIBLE
+                    }
+                    createScheduleThursdayLayout.requestFocus()
+                }
+                DayInBahasa.FRIDAY.desc->{
+                    if(subject.isNotEmpty()){
+                        createScheduleTxtSubjectFriday.text = subject
+                        createScheduleTxtSubjectFriday.visibility = View.VISIBLE
+                    }
+                    if(notes.isNotEmpty()){
+                        createScheduleTxtNotesFriday.text = notes
+                        createScheduleTxtNotesFriday.visibility = View.VISIBLE
+                    }
+                    createScheduleFridayLayout.requestFocus()
+                }
+                DayInBahasa.SATURDAY.desc->{
+                    if(subject.isNotEmpty()){
+                        createScheduleTxtSubjectSaturday.text = subject
+                        createScheduleTxtSubjectSaturday.visibility = View.VISIBLE
+                    }
+                    if(notes.isNotEmpty()){
+                        createScheduleTxtNotesSaturday.text = notes
+                        createScheduleTxtNotesSaturday.visibility = View.VISIBLE
+                    }
+                    createScheduleSaturdayLayout.requestFocus()
+                }
+                DayInBahasa.SUNDAY.desc->{
+                    if(subject.isNotEmpty()){
+                        createScheduleTxtSubjectSunday.text = subject
+                        createScheduleTxtSubjectSunday.visibility = View.VISIBLE
+                    }
+                    if(notes.isNotEmpty()){
+                        createScheduleTxtNotesSunday.text = notes
+                        createScheduleTxtNotesSunday.visibility = View.VISIBLE
+                    }
+                    createScheduleSundayLayout.requestFocus()
+                }
+            }
         })
 
         builder.setNegativeButton("Hapus", { _ , _ ->
@@ -735,12 +827,5 @@ class CreateScheduleActivity : AppCompatActivity() {
 
     private fun saveSchedule(){
         Log.d("TES","SAVE")
-    }
-
-    private fun showKeyboard(showKeyboard: Boolean){
-        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(currentFocus!!.windowToken,
-                        if (showKeyboard) InputMethodManager.SHOW_FORCED
-                        else InputMethodManager.HIDE_NOT_ALWAYS )
     }
 }

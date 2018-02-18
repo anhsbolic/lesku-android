@@ -210,7 +210,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <CheckBox
                         android:id="@+id/createScheduleCbMonday"
@@ -249,6 +250,26 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/createScheduleTxtSubjectMonday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/createScheduleTxtNotesMonday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="gone"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -261,7 +282,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <CheckBox
                         android:id="@+id/createScheduleCbTuesday"
@@ -300,6 +322,26 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/createScheduleTxtSubjectTuesday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/createScheduleTxtNotesTuesday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="gone"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -312,7 +354,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <CheckBox
                         android:id="@+id/createScheduleCbWednesday"
@@ -351,6 +394,26 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/createScheduleTxtSubjectWednesday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/createScheduleTxtNotesWednesday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="gone"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -363,7 +426,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <CheckBox
                         android:id="@+id/createScheduleCbThursday"
@@ -402,6 +466,26 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/createScheduleTxtSubjectThursday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/createScheduleTxtNotesThursday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="gone"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -414,7 +498,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <CheckBox
                         android:id="@+id/createScheduleCbFriday"
@@ -453,6 +538,26 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/createScheduleTxtSubjectFriday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/createScheduleTxtNotesFriday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="gone"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -465,7 +570,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <CheckBox
                         android:id="@+id/createScheduleCbSaturday"
@@ -504,6 +610,26 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/createScheduleTxtSubjectSaturday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/createScheduleTxtNotesSaturday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="gone"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -516,7 +642,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <CheckBox
                         android:id="@+id/createScheduleCbSunday"
@@ -554,6 +681,26 @@
                         android:visibility="gone"/>
 
                 </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/createScheduleTxtSubjectSunday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/createScheduleTxtNotesSunday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginStart="62dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
