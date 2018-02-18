@@ -1,8 +1,6 @@
 package id.lesku.lesku.activity
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.content.Context
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -10,17 +8,14 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import id.lesku.lesku.R
 import id.lesku.lesku.helper.SqliteDbHelper
-import id.lesku.lesku.model.ScheduleDailyNotes
 import id.lesku.lesku.model.Student
 import id.lesku.lesku.utils.DayInBahasa
 import id.lesku.lesku.utils.MyDateFormatter
 import id.lesku.lesku.utils.ReminderTime
 import kotlinx.android.synthetic.main.activity_create_schedule.*
-import kotlinx.android.synthetic.main.dialog_set_repetition.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.DatePicker
@@ -41,13 +36,6 @@ class CreateScheduleActivity : AppCompatActivity() {
     private var intReminderValue: Int = 10
     private var intReminderTimeInMillis: Int = 0
     private var isReminderSet: Boolean = false
-    private var intWeeksRepetition: Int = 0
-    private var listRepetitionDays: ArrayList<String> = ArrayList()
-    private var isRepetitionSet: Boolean = false
-
-    private var dataDailyNotes: ArrayList<ScheduleDailyNotes> = ArrayList()
-    private var dataDailyNotesPicked: ArrayList<ScheduleDailyNotes> = ArrayList()
-
     private var colorTextGray: Int = 0
     private var colorTextPrimary: Int = 0
 
@@ -65,30 +53,8 @@ class CreateScheduleActivity : AppCompatActivity() {
 
         //Init Data
         loadThenSetStudentData()
-
         datePicked = Date()
         createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
-
-        val scheduleMonday = ScheduleDailyNotes(DayInBahasa.MONDAY.desc, false, null, null)
-        val scheduleTuesday = ScheduleDailyNotes(DayInBahasa.TUESDAY.desc, false, null, null)
-        val scheduleWednesday = ScheduleDailyNotes(DayInBahasa.WEDNESDAY.desc, false, null, null)
-        val scheduleThursday = ScheduleDailyNotes(DayInBahasa.THURSDAY.desc, false, null, null)
-        val scheduleFriday = ScheduleDailyNotes(DayInBahasa.FRIDAY.desc, false, null, null)
-        val scheduleSaturday = ScheduleDailyNotes(DayInBahasa.SATURDAY.desc, false, null, null)
-        val scheduleSunday = ScheduleDailyNotes(DayInBahasa.SUNDAY.desc, false, null, null)
-        dataDailyNotes.add(scheduleMonday)
-        dataDailyNotes.add(scheduleTuesday)
-        dataDailyNotes.add(scheduleWednesday)
-        dataDailyNotes.add(scheduleThursday)
-        dataDailyNotes.add(scheduleFriday)
-        dataDailyNotes.add(scheduleSaturday)
-        dataDailyNotes.add(scheduleSunday)
-
-        val dayPicked = MyDateFormatter.getDayBahasa(datePicked)
-        for(i in 0 until dataDailyNotes.size){
-            dataDailyNotes[i].isChecked = dataDailyNotes[i].day!! == dayPicked
-        }
-        setRvDailyNotesAdapterData(dataDailyNotes)
 
         //UI Handling & listener
         createScheduleSearchAutoComplete.setOnFocusChangeListener { _, hasFocus ->
@@ -340,18 +306,6 @@ class CreateScheduleActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun setRvDailyNotesAdapterData(dataDailyNotes: ArrayList<ScheduleDailyNotes>) {
-        if(dataDailyNotesPicked.isNotEmpty()){
-            dataDailyNotesPicked.clear()
-        }
-
-        for(i in 0 until dataDailyNotes.size){
-            if(dataDailyNotes[i].isChecked!!){
-                dataDailyNotesPicked.add(dataDailyNotes[i])
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_create_schedulle_menu, menu)
         return true
@@ -421,16 +375,8 @@ class CreateScheduleActivity : AppCompatActivity() {
             val intDay = myDatePicker.dayOfMonth
             val intMonth = myDatePicker.month
             val intYear = myDatePicker.year
-
-            //update UI
             datePicked = MyDateFormatter.getDate(intDay, intMonth, intYear)
             createScheduleTxtStartDate.text = MyDateFormatter.dateBahasa(datePicked)
-
-            val dayPicked = MyDateFormatter.getDayBahasa(datePicked)
-            for(i in 0 until dataDailyNotes.size){
-                dataDailyNotes[i].isChecked = dataDailyNotes[i].day!! == dayPicked
-            }
-            setRvDailyNotesAdapterData(dataDailyNotes)
         })
 
         builder.show()
@@ -622,207 +568,6 @@ class CreateScheduleActivity : AppCompatActivity() {
         })
 
         builder.show()
-    }
-
-    private fun setRepetition(){
-        //set dialog datePicker
-        val dialogSetRepetition = Dialog(this@CreateScheduleActivity)
-        dialogSetRepetition.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogSetRepetition.setCanceledOnTouchOutside(true)
-        dialogSetRepetition.setCancelable(true)
-        dialogSetRepetition.setContentView(R.layout.dialog_set_repetition)
-        val window = dialogSetRepetition.window
-        val param = window.attributes
-        param.gravity = Gravity.CENTER
-        param.width = WindowManager.LayoutParams.MATCH_PARENT
-        window.attributes = param
-        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        dialogSetRepetition.show()
-
-        //get layout component
-        val etWeeks: EditText = dialogSetRepetition.setRepetitionEtWeeks
-        val layoutMonday: RelativeLayout = dialogSetRepetition.setRepetitionMondayLayout
-        val layoutTuesday: RelativeLayout = dialogSetRepetition.setRepetitionTuesdayLayout
-        val layoutWednesday: RelativeLayout = dialogSetRepetition.setRepetitionWednesdayLayout
-        val layoutThursday: RelativeLayout = dialogSetRepetition.setRepetitionThursdayLayout
-        val layoutFriday: RelativeLayout = dialogSetRepetition.setRepetitionFridayLayout
-        val layoutSaturday: RelativeLayout = dialogSetRepetition.setRepetitionSaturdayLayout
-        val layoutSunday: RelativeLayout = dialogSetRepetition.setRepetitionSundayLayout
-        val cbMonday: CheckBox = dialogSetRepetition.setRepetitionCbMonday
-        val cbTuesday: CheckBox = dialogSetRepetition.setRepetitionCbTuesday
-        val cbWednesday: CheckBox = dialogSetRepetition.setRepetitionCbWednesday
-        val cbThursday: CheckBox = dialogSetRepetition.setRepetitionCbThursday
-        val cbFriday: CheckBox = dialogSetRepetition.setRepetitionCbFriday
-        val cbSaturday: CheckBox = dialogSetRepetition.setRepetitionCbSaturday
-        val cbSunday: CheckBox = dialogSetRepetition.setRepetitionCbSunday
-        val btnSetRepetition: Button = dialogSetRepetition.setRepetitionBtnSet
-
-        //Init last data input
-        if(intWeeksRepetition > 0){
-            etWeeks.setText(intWeeksRepetition.toString())
-        }
-
-        val dayPicked = MyDateFormatter.getDay(datePicked)
-        Log.d("TES", dayPicked)
-        Log.d("TES A", DayInBahasa.SATURDAY.toString())
-        when(dayPicked.toLowerCase()){
-            DayInBahasa.MONDAY.toString().toLowerCase()->{
-                cbMonday.isChecked = true
-                cbMonday.isEnabled = false
-            }
-            DayInBahasa.TUESDAY.toString().toLowerCase()->{
-                cbTuesday.isChecked = true
-                cbTuesday.isEnabled = false
-            }
-            DayInBahasa.WEDNESDAY.toString().toLowerCase()->{
-                cbWednesday.isChecked = true
-                cbWednesday.isEnabled = false
-            }
-            DayInBahasa.THURSDAY.toString().toLowerCase()->{
-                cbThursday.isChecked = true
-                cbThursday.isEnabled = false
-            }
-            DayInBahasa.FRIDAY.toString().toLowerCase()->{
-                cbFriday.isChecked = true
-                cbFriday.isEnabled = false
-            }
-            DayInBahasa.SATURDAY.toString().toLowerCase()->{
-                cbSaturday.isChecked = true
-                cbSaturday.isEnabled = false
-            }
-            DayInBahasa.SUNDAY.toString().toLowerCase()->{
-                cbSunday.isChecked = true
-                cbSunday.isEnabled = false
-            }
-        }
-
-        if(listRepetitionDays.isNotEmpty()){
-            for(i in 0 until listRepetitionDays.size){
-                when(listRepetitionDays[i]){
-                    DayInBahasa.MONDAY.desc ->{
-                        cbMonday.isChecked = true
-                    }
-                    DayInBahasa.TUESDAY.desc ->{
-                        cbTuesday.isChecked = true
-                    }
-                    DayInBahasa.WEDNESDAY.desc ->{
-                        cbWednesday.isChecked = true
-                    }
-                    DayInBahasa.THURSDAY.desc ->{
-                        cbThursday.isChecked = true
-                    }
-                    DayInBahasa.FRIDAY.desc ->{
-                        cbFriday.isChecked = true
-                    }
-                    DayInBahasa.SATURDAY.desc ->{
-                        cbSaturday.isChecked = true
-                    }
-                    DayInBahasa.SUNDAY.desc ->{
-                        cbSunday.isChecked = true
-                    }
-                }
-            }
-        }
-
-        //UI handling & listener
-        layoutMonday.setOnClickListener {
-            if(cbMonday.isEnabled){
-                cbMonday.isChecked = !cbMonday.isChecked
-            }
-        }
-        layoutTuesday.setOnClickListener {
-            if(cbTuesday.isEnabled){
-                cbTuesday.isChecked = !cbTuesday.isChecked
-            }
-        }
-        layoutWednesday.setOnClickListener {
-            if(cbWednesday.isEnabled){
-                cbWednesday.isChecked = !cbWednesday.isChecked
-            }
-        }
-        layoutThursday.setOnClickListener {
-            if(cbThursday.isEnabled){
-                cbThursday.isChecked = !cbThursday.isChecked
-            }
-        }
-        layoutFriday.setOnClickListener {
-            if(cbFriday.isEnabled){
-                cbFriday.isChecked = !cbFriday.isChecked
-            }
-        }
-        layoutSaturday.setOnClickListener {
-            if(cbSaturday.isEnabled){
-                cbSaturday.isChecked = !cbSaturday.isChecked
-            }
-        }
-        layoutSunday.setOnClickListener {
-            if(cbSunday.isEnabled){
-                cbSunday.isChecked = !cbSunday.isChecked
-            }
-        }
-
-        btnSetRepetition.setOnClickListener {
-            if(etWeeks.text.toString().isNotEmpty()){
-                etWeeks.error = null
-
-                var isDayChecked = true
-                if(!cbMonday.isChecked && !cbTuesday.isChecked && !cbWednesday.isChecked
-                        && !cbThursday.isChecked && !cbFriday.isChecked && !cbSaturday.isChecked
-                        && !cbSunday.isChecked){
-                    isDayChecked = false
-                }
-
-                if(isDayChecked){
-                    intWeeksRepetition = etWeeks.text.toString().toInt()
-
-                    if(listRepetitionDays.isNotEmpty()){
-                        listRepetitionDays.clear()
-                    }
-
-                    if(cbMonday.isChecked){
-                        listRepetitionDays.add(DayInBahasa.MONDAY.desc)
-                    }
-                    if(cbTuesday.isChecked){
-                        listRepetitionDays.add(DayInBahasa.TUESDAY.desc)
-                    }
-                    if(cbWednesday.isChecked){
-                        listRepetitionDays.add(DayInBahasa.WEDNESDAY.desc)
-                    }
-                    if(cbThursday.isChecked){
-                        listRepetitionDays.add(DayInBahasa.THURSDAY.desc)
-                    }
-                    if(cbFriday.isChecked){
-                        listRepetitionDays.add(DayInBahasa.FRIDAY.desc)
-                    }
-                    if(cbSaturday.isChecked){
-                        listRepetitionDays.add(DayInBahasa.SATURDAY.desc)
-                    }
-                    if(cbSunday.isChecked){
-                        listRepetitionDays.add(DayInBahasa.SUNDAY.desc)
-                    }
-
-                    isRepetitionSet = true
-
-                    //update UI
-                    //createScheduleBtnRepetitionReset.visibility = View.VISIBLE
-                    var days = listRepetitionDays[0]
-                    if(listRepetitionDays.size > 1){
-                        for(i in 1 until listRepetitionDays.size){
-                            days += ", ${listRepetitionDays[i]}"
-                        }
-                    }
-                    val strRepetition = "Diulang pada hari $days, selama $intWeeksRepetition minggu"
-                    //createScheduleTxtRepetition.text = strRepetition
-
-                    dialogSetRepetition.dismiss()
-                }else{
-                    Toast.makeText(this@CreateScheduleActivity, "pilih hari jadwal akang diulang",
-                            Toast.LENGTH_SHORT).show()
-                }
-            }else{
-                etWeeks.error = "akan diulang berapa minggu"
-            }
-        }
     }
 
     private fun saveSchedule(){
